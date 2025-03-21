@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1000);
     }
 
-    // Formulario de contacto con validación y efectos visuales mejorados
+    // Formulario de contacto con validación y envío real utilizando EmailJS
     const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
@@ -91,53 +91,76 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Enviando...';
             
-            // Simular envío (en una implementación real conectarías con un backend)
-            setTimeout(() => {
-                // Obtener los valores del formulario
-                const formData = new FormData(this);
-                const formObject = {};
-                formData.forEach((value, key) => {
-                    formObject[key] = value;
-                });
-                
-                console.log('Datos del formulario:', formObject);
-                
-                // Mostrar mensaje de éxito
-                this.reset();
-                submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!';
-                
-                // Volver al estado original después de un tiempo
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
+            // Obtener los valores del formulario
+            const nombre = document.getElementById('nombre').value;
+            const email = document.getElementById('email').value;
+            const mensaje = document.getElementById('mensaje').value;
+            
+            // Preparar los parámetros para EmailJS
+            const templateParams = {
+                nombre: nombre,
+                email: email,
+                mensaje: mensaje
+            };
+            
+            // Enviar el email utilizando EmailJS
+            // Reemplazar 'service_id' y 'template_id' con tus IDs reales de EmailJS
+            emailjs.send('service_id', 'template_id', templateParams)
+                .then(function(response) {
+                    console.log('Email enviado correctamente:', response);
                     
-                    // Mostrar toast o alerta de confirmación
-                    const alertHTML = `
-                        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
-                            <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="toast-header bg-success text-white">
-                                    <strong class="me-auto">Mensaje enviado</strong>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                                </div>
-                                <div class="toast-body">
-                                    ¡Gracias por tu mensaje! Te contactaré pronto.
+                    // Mostrar mensaje de éxito
+                    contactForm.reset();
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!';
+                    
+                    // Volver al estado original después de un tiempo
+                    setTimeout(() => {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                        
+                        // Mostrar toast o alerta de confirmación
+                        const alertHTML = `
+                            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+                                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header bg-success text-white">
+                                        <strong class="me-auto">Mensaje enviado</strong>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        ¡Gracias por tu mensaje! Te contactaré pronto.
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                        
+                        // Añadir alerta al DOM
+                        const alertContainer = document.createElement('div');
+                        alertContainer.innerHTML = alertHTML;
+                        document.body.appendChild(alertContainer);
+                        
+                        // Eliminar el toast después de 5 segundos
+                        setTimeout(() => {
+                            document.body.removeChild(alertContainer);
+                        }, 5000);
+                        
+                    }, 1500);
+                }, function(error) {
+                    console.log('Error al enviar el email:', error);
                     
-                    // Añadir alerta al DOM
-                    const alertContainer = document.createElement('div');
-                    alertContainer.innerHTML = alertHTML;
-                    document.body.appendChild(alertContainer);
+                    // Mostrar mensaje de error
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
                     
-                    // Eliminar el toast después de 5 segundos
+                    // Mostrar mensaje de error en el formulario
+                    const formStatus = document.getElementById('form-status');
+                    formStatus.style.display = 'block';
+                    formStatus.innerHTML = '<div class="alert alert-danger">Hubo un error al enviar tu mensaje. Por favor, intenta de nuevo o contáctame directamente por email.</div>';
+                    
+                    // Ocultar el mensaje de error después de 5 segundos
                     setTimeout(() => {
-                        document.body.removeChild(alertContainer);
+                        formStatus.style.display = 'none';
                     }, 5000);
-                    
-                }, 1500);
-            }, 1500);
+                });
         });
         
         // Validación en tiempo real mejorada

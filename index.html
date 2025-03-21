@@ -12,6 +12,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- AOS - Animate On Scroll Library -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- EmailJS para el formulario de contacto -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // EmailJS User ID - Reemplazar con tu ID real
+            emailjs.init("tu_user_id_de_emailjs");
+        })();
+    </script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -258,15 +266,16 @@
                 <div class="col-md-8" data-aos="fade-up" data-aos-delay="200">
                     <form id="contact-form" class="contact-form">
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Nombre" required name="nombre">
+                            <input type="text" class="form-control" placeholder="Nombre" required name="nombre" id="nombre">
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Email" required name="email">
+                            <input type="email" class="form-control" placeholder="Email" required name="email" id="email">
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" rows="5" placeholder="Mensaje" required name="mensaje"></textarea>
+                            <textarea class="form-control" rows="5" placeholder="Mensaje" required name="mensaje" id="mensaje"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Enviar Mensaje</button>
+                        <div id="form-status" class="mt-3 text-center" style="display: none;"></div>
                     </form>
                 </div>
             </div>
