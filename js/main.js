@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Enviar el email utilizando EmailJS
             // Reemplazar 'service_id' y 'template_id' con tus IDs reales de EmailJS
-            emailjs.send('service_id', 'template_id', templateParams)
+            emailjs.send('service_fnw6qw7', 'template_9ja0w7f', templateParams)
                 .then(function(response) {
                     console.log('Email enviado correctamente:', response);
                     
