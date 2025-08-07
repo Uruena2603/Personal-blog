@@ -72,42 +72,45 @@
     </section>
 
     <!-- Sección Sobre Mí -->
-    <section id="sobre-mi" class="py-5">
-        <div class="container">
-            <h2 class="text-center mb-5" data-aos="fade-up">Sobre Mí</h2>
-            <div class="row">
-                <div class="col-md-5" data-aos="fade-right" data-aos-delay="200">
-                    <div class="profile-img-container">
-                        <img src="img/perfil/pfp.jpg" alt="Juan Alejandro Urueña Serna" class="img-fluid profile-img">
-                    </div>
-                </div>
-                <div class="col-md-7" data-aos="fade-left" data-aos-delay="300">
-                    <p class="lead about-lead">Soy un estudiante apasionado por la tecnología, con sólidos conocimientos en desarrollo de software.</p>
-                    <p class="about-text">Conocimientos en desarrollo de software (C++, Java, Python) y web (React, Flask, HTML, CSS). Participante en un proyecto de investigación sobre mantenimiento predictivo e inteligencia artificial (Redes neuronales). Conocimientos en pruebas automatizadas (Cypress) y bases de datos (MySQL, SQL Server).</p>
-                    <p class="about-text">Apasionado por la tecnología, con disposición para aprender, trabajar en equipo y contribuir a un ambiente laboral positivo.</p>
-                    <div class="skills mt-4">
-                        <h3 class="skill-title">Habilidades</h3>
-                        <div class="skill-tags">
-                            <span class="badge">HTML5</span>
-                            <span class="badge">CSS3</span>
-                            <span class="badge">JavaScript</span>
-                            <span class="badge">React</span>
-                            <span class="badge">Python</span>
-                            <span class="badge">Java</span>
-                            <span class="badge">C++</span>
-                            <span class="badge">Flask</span>
-                            <span class="badge">MySQL</span>
-                            <span class="badge">SQL Server</span>
-                            <span class="badge">Cypress</span>
-                            <span class="badge">Machine Learning</span>
-                            <span class="badge">Deep Learning</span>
-                            <span class="badge">IA</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <section id="sobre-mi" class="py-5 bg-gradient">
+  <div class="container">
+    <h2 class="text-center mb-5" data-aos="fade-up">Sobre Mí</h2>
+    <div class="row align-items-center">
+      <div class="col-md-4 text-center mb-4 mb-md-0" data-aos="fade-right" data-aos-delay="200">
+        <div class="profile-img-container mx-auto shadow-lg rounded-circle overflow-hidden" style="width:220px;height:220px;">
+          <img src="img/perfil/pfp.jpg" alt="Juan Alejandro Urueña Serna" class="img-fluid w-100 h-100 object-fit-cover">
         </div>
-    </section>
+        <a href="ruta-a-tu-cv.pdf" class="btn btn-outline-primary mt-4" target="_blank">
+          <i class="fas fa-file-download me-2"></i>Descargar CV
+        </a>
+      </div>
+      <div class="col-md-8" data-aos="fade-left" data-aos-delay="300">
+        <h3 class="fw-bold mb-3">¡Hola! Soy Juan Alejandro</h3>
+        <p class="lead mb-3">
+          Ingeniero en formación (10.º semestre) con foco en <span class="text-primary fw-semibold">desarrollo full-stack</span> e <span class="text-success fw-semibold">IA aplicada</span>.
+        </p>
+        <ul class="list-unstyled mb-4">
+          <li><i class="fas fa-code text-primary me-2"></i>SPAs y landing pages (React/Angular)</li>
+          <li><i class="fas fa-server text-success me-2"></i>APIs REST (Flask/Node/PHP)</li>
+          <li><i class="fas fa-brain text-warning me-2"></i>Pipelines de deep learning (RNN, LSTM, CNN, TCN) para mantenimiento predictivo</li>
+          <li><i class="fas fa-search text-info me-2"></i>Web scraping con Python (BeautifulSoup, lxml, pandas)</li>
+          <li><i class="fas fa-vial text-danger me-2"></i>Pruebas E2E con Cypress</li>
+          <li><i class="fas fa-database text-secondary me-2"></i>Bases de datos (MySQL, PostgreSQL, SQL Server)</li>
+        </ul>
+        <h4 class="mb-2">Tecnologías principales</h4>
+        <div class="skill-tags mb-3">
+          <span class="badge bg-primary"><i class="fab fa-react me-1"></i>React</span>
+          <span class="badge bg-success"><i class="fab fa-python me-1"></i>Python</span>
+          <span class="badge bg-warning text-dark"><i class="fab fa-java me-1"></i>Java</span>
+          <span class="badge bg-info text-dark"><i class="fas fa-database me-1"></i>SQL</span>
+          <span class="badge bg-secondary"><i class="fab fa-node-js me-1"></i>Node.js</span>
+          <span class="badge bg-dark"><i class="fas fa-robot me-1"></i>IA</span>
+          <!-- Agrega más según tus skills -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Sección Formación -->
     <section id="formacion" class="py-5 bg-light">
