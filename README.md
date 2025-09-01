@@ -209,19 +209,6 @@ AOS.init({
   offset: window.innerWidth <= 768 ? 50 : 120,
 });
 ```
-
----
-
-## 🤝 Contribución
-
-¿Tienes ideas para mejorar el portafolio? ¡Las contribuciones son bienvenidas!
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
 ---
 
 ## � Stats del Proyecto
@@ -231,8 +218,7 @@ AOS.init({
 - **Responsive breakpoints**: 4 tamaños de pantalla
 - **Animaciones AOS**: 15+ efectos implementados
 - **Tecnologías**: 8+ herramientas integradas
-- **Performance Score**: 95+ en Lighthouse
-
+- 
 ---
 
 ## � Contacto y Redes
@@ -255,7 +241,7 @@ AOS.init({
 
 **⭐ Si te gusta este proyecto, no olvides darle una estrella ⭐**
 
-_Desarrollado con ❤️ por Juan Alejandro Urueña Serna_
+_Desarrollado por Juan Alejandro Urueña Serna_
 
 **© 2025 - Todos los derechos reservados**
 
