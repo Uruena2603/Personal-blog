@@ -21,6 +21,16 @@ body {
   padding-top: 76px; /* Espacio para la navbar fija */
   background-color: var(--light-bg);
   line-height: 1.7;
+  overflow-x: hidden; /* Prevenir scroll horizontal */
+}
+
+/* Asegurar que ningún elemento cause overflow horizontal */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 /* Imágenes y videos fluidos */
@@ -52,6 +62,38 @@ h6 {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   padding: 15px 0;
+  width: 100%;
+  z-index: 9999;
+}
+
+/* Asegurar que el botón hamburguesa sea visible */
+.navbar-toggler {
+  border: none;
+  padding: 4px 8px;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border-radius: 0.375rem;
+  transition: all 0.15s ease-in-out;
+  position: relative;
+  z-index: 10000;
+}
+
+.navbar-toggler:focus {
+  text-decoration: none;
+  outline: 0;
+  box-shadow: 0 0 0 0.25rem rgba(56, 189, 248, 0.25);
+}
+
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
 }
 
 .navbar-brand {
@@ -131,23 +173,23 @@ h6 {
 
 /* Hero Shapes */
 .hero-shapes {
-  .navbar {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 999;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
   overflow: hidden;
   z-index: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .shape {
   position: absolute;
   border-radius: 50%;
   filter: blur(80px);
+  max-width: 100vw;
+  max-height: 100vh;
 }
 
 .shape-1 {
@@ -175,6 +217,7 @@ h6 {
   height: 25vw;
   background: rgba(99, 102, 241, 0.2);
   animation: float 10s ease-in-out infinite;
+  transform: translate(-50%, -50%);
 }
 
 @keyframes float {
@@ -182,7 +225,7 @@ h6 {
     transform: translate(0, 0);
   }
   50% {
-    transform: translate(20px, 20px);
+    transform: translate(10px, 10px);
   }
   100% {
     transform: translate(0, 0);
@@ -519,6 +562,10 @@ footer p {
 }
 
 @media (max-width: 576px) {
+  body {
+    padding-top: 70px;
+  }
+
   .navbar {
     position: fixed !important;
     top: 0;
@@ -528,7 +575,29 @@ footer p {
     z-index: 9999;
     margin: 0 !important;
     box-sizing: border-box;
+    padding: 10px 0;
   }
+
+  .container {
+    padding-left: 15px;
+    padding-right: 15px;
+    max-width: 100%;
+  }
+
+  .navbar-toggler {
+    margin-right: 0;
+    padding: 6px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .navbar-collapse {
+    margin-top: 10px;
+    background-color: rgba(15, 23, 42, 0.98);
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
   .hero-section h1 {
     font-size: 2rem;
   }
@@ -575,14 +644,26 @@ footer p {
   }
   .navbar-dark .navbar-nav .nav-link {
     font-size: 1rem;
-    padding: 12px 0;
-    margin: 0 0;
+    padding: 12px 15px;
+    margin: 5px 0;
     text-align: center;
     border-radius: 8px;
     min-width: 120px;
-    transition: background 0.2s;
+    transition: all 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05);
+    display: block;
+    width: 100%;
   }
+
+  .navbar-dark .navbar-nav .nav-link:hover,
   .navbar-dark .navbar-nav .nav-link:active,
+  .navbar-dark .navbar-nav .nav-link:focus {
+    background: var(--secondary-color);
+    color: #fff !important;
+    transform: translateY(-2px);
+  }
+
+  /* Ajustes específicos para la sección sobre mí */
   #sobre-mi .profile-img-container {
     margin-bottom: 1.5rem;
     max-width: 140px;
@@ -616,9 +697,27 @@ footer p {
   #sobre-mi .lead {
     margin-bottom: 1rem;
   }
-  .navbar-dark .navbar-nav .nav-link:focus {
-    background: var(--secondary-color);
-    color: #fff !important;
+
+  /* Ajustar formas decorativas en móviles */
+  .shape-1,
+  .shape-2,
+  .shape-3 {
+    opacity: 0.3;
+  }
+
+  .shape-1 {
+    width: 40vw;
+    height: 40vw;
+  }
+
+  .shape-2 {
+    width: 50vw;
+    height: 50vw;
+  }
+
+  .shape-3 {
+    width: 45vw;
+    height: 45vw;
   }
 }
 
@@ -635,4 +734,53 @@ section:nth-child(odd) {
 /* Estilo general para secciones pares */
 section:nth-child(even) {
   background-color: white;
+}
+
+/* Correcciones específicas para dispositivos Samsung y Android */
+@media screen and (-webkit-min-device-pixel-ratio: 1.5) {
+  .navbar-toggler {
+    min-height: 44px;
+    min-width: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .navbar-dark .navbar-nav .nav-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Soporte para dispositivos con notch o áreas seguras */
+@supports (padding: max(0px)) {
+  .navbar {
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+  }
+
+  .container {
+    padding-left: max(15px, env(safe-area-inset-left));
+    padding-right: max(15px, env(safe-area-inset-right));
+  }
+}
+
+/* Prevenir zoom en inputs en iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Mejorar el comportamiento de touch en elementos interactivos */
+.navbar-toggler,
+.nav-link,
+.btn,
+.card {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+  touch-action: manipulation;
 }

@@ -1,11 +1,52 @@
 // Esperar a que el DOM esté completamente cargado
 document.addEventListener("DOMContentLoaded", function () {
+  // Variables para detectar dispositivo móvil
+  const isMobileDevice =
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  let currentOrientation =
+    window.innerHeight > window.innerWidth ? "portrait" : "landscape";
+
+  // Detector de cambio de orientación
+  function handleOrientationChange() {
+    const newOrientation =
+      window.innerHeight > window.innerWidth ? "portrait" : "landscape";
+
+    if (newOrientation !== currentOrientation) {
+      currentOrientation = newOrientation;
+
+      // Cerrar menú si está abierto al cambiar orientación
+      const navbarCollapse = document.querySelector(".navbar-collapse");
+      if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+        const navbarToggler = document.querySelector(".navbar-toggler");
+        if (navbarToggler) navbarToggler.click();
+      }
+
+      // Pequeño delay para que se ajuste el layout
+      setTimeout(() => {
+        // Re-calcular AOS si es necesario
+        if (typeof AOS !== "undefined") {
+          AOS.refresh();
+        }
+      }, 100);
+    }
+  }
+
+  // Escuchar cambios de orientación y resize
+  window.addEventListener("resize", handleOrientationChange);
+  window.addEventListener("orientationchange", handleOrientationChange);
+
   // Inicializar AOS (Animate On Scroll)
   AOS.init({
     duration: 800,
     easing: "ease-in-out",
     once: false,
     mirror: false,
+    disable: function () {
+      // Deshabilitar AOS en móviles muy pequeños para mejor rendimiento
+      return window.innerWidth < 480;
+    },
   });
 
   // Navbar scroll effect con transición suave
@@ -22,18 +63,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Activar los links de navegación según la sección visible
+  // Activar los links de navegación según la sección visible (optimizado para móviles)
   const sections = document.querySelectorAll("section");
   const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  let ticking = false;
 
-  window.addEventListener("scroll", function () {
+  function updateActiveNavLink() {
     let current = "";
+    const scrollPosition = window.pageYOffset;
+
+    // Ajustar offset según el tamaño de pantalla
+    const offset = window.innerWidth <= 768 ? 120 : 100;
 
     sections.forEach((section) => {
-      const sectionTop = section.offsetTop - 100;
+      const sectionTop = section.offsetTop - offset;
       const sectionHeight = section.clientHeight;
+      const sectionBottom = sectionTop + sectionHeight;
 
-      if (pageYOffset >= sectionTop) {
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
         current = section.getAttribute("id");
       }
     });
@@ -44,31 +91,140 @@ document.addEventListener("DOMContentLoaded", function () {
         link.classList.add("active");
       }
     });
-  });
+
+    ticking = false;
+  }
+
+  function requestTick() {
+    if (!ticking) {
+      requestAnimationFrame(updateActiveNavLink);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", requestTick);
 
   // Smooth scroll para los enlaces de navegación con velocidad ajustada
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", function (e) {
       e.preventDefault();
+
+      const targetId = this.getAttribute("href");
+      const target = document.querySelector(targetId);
+
+      if (!target) return;
+
+      // Detectar si estamos en móvil
+      const isMobile = window.innerWidth <= 768;
+
       // Cierra el menú móvil si está abierto (Bootstrap)
       const navbarCollapse = document.querySelector(".navbar-collapse");
       const navbarToggler = document.querySelector(".navbar-toggler");
+
       if (navbarCollapse && navbarCollapse.classList.contains("show")) {
-        navbarToggler.click();
-      }
-      // Espera a que el menú se cierre antes de hacer scroll (especialmente en móvil)
-      setTimeout(() => {
-        const target = document.querySelector(this.getAttribute("href"));
-        if (target) {
-          const offsetTop = target.offsetTop - 70;
-          window.scrollTo({
-            top: offsetTop,
-            behavior: "smooth",
+        // En móvil, usar Bootstrap para cerrar el menú
+        if (window.bootstrap && window.bootstrap.Collapse) {
+          const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+            toggle: false,
           });
+          bsCollapse.hide();
+        } else {
+          navbarToggler.click();
         }
-      }, 300);
+
+        // Tiempo de espera más largo en móviles para asegurar que el menú se cierre
+        const delay = isMobile ? 400 : 200;
+
+        setTimeout(() => {
+          scrollToTarget(target, isMobile);
+        }, delay);
+      } else {
+        scrollToTarget(target, isMobile);
+      }
     });
   });
+
+  // Controles mejorados para el menú móvil
+  const navbarToggler = document.querySelector(".navbar-toggler");
+  const navbarCollapse = document.querySelector(".navbar-collapse");
+
+  if (navbarToggler && navbarCollapse) {
+    // Prevenir problemas de doble-tap en móviles
+    navbarToggler.addEventListener(
+      "touchstart",
+      function (e) {
+        e.preventDefault();
+        this.click();
+      },
+      { passive: false }
+    );
+
+    // Cerrar menú al hacer clic fuera de él
+    document.addEventListener("click", function (e) {
+      if (
+        window.innerWidth <= 768 &&
+        navbarCollapse.classList.contains("show") &&
+        !navbarCollapse.contains(e.target) &&
+        !navbarToggler.contains(e.target)
+      ) {
+        navbarToggler.click();
+      }
+    });
+
+    // Cerrar menú al hacer scroll en móvil
+    let scrollTimer = null;
+    window.addEventListener("scroll", function () {
+      if (
+        window.innerWidth <= 768 &&
+        navbarCollapse.classList.contains("show")
+      ) {
+        if (scrollTimer) clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+          navbarToggler.click();
+        }, 150);
+      }
+    });
+  }
+
+  // Función auxiliar para el scroll
+  function scrollToTarget(target, isMobile) {
+    const offsetTop = target.offsetTop - (isMobile ? 80 : 70);
+
+    // Usar scroll nativo para mejor compatibilidad móvil
+    if (isMobile && "scrollBehavior" in document.documentElement.style) {
+      window.scrollTo({
+        top: offsetTop,
+        behavior: "smooth",
+      });
+    } else {
+      // Fallback para dispositivos más antiguos
+      smoothScrollTo(offsetTop, isMobile ? 800 : 600);
+    }
+  }
+
+  // Función de smooth scroll manual para mejor control
+  function smoothScrollTo(targetPosition, duration) {
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+
+    function animation(currentTime) {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const run = ease(timeElapsed, startPosition, distance, duration);
+      window.scrollTo(0, run);
+      if (timeElapsed < duration) requestAnimationFrame(animation);
+    }
+
+    function ease(t, b, c, d) {
+      t /= d / 2;
+      if (t < 1) return (c / 2) * t * t + b;
+      t--;
+      return (-c / 2) * (t * (t - 2) - 1) + b;
+    }
+
+    requestAnimationFrame(animation);
+  }
 
   // Efecto de typing en la sección hero
   if (document.querySelector(".hero-section h1")) {
