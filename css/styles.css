@@ -569,6 +569,39 @@ footer p {
     transition: background 0.2s;
   }
   .navbar-dark .navbar-nav .nav-link:active,
+  #sobre-mi .profile-img-container {
+    margin-bottom: 1.5rem;
+    max-width: 140px;
+    width: 100%;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+  #sobre-mi .profile-img-container img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #sobre-mi .d-flex.flex-column.align-items-center.gap-2.mt-4 {
+    gap: 0.8rem !important;
+    margin-bottom: 1.2rem;
+  }
+  #sobre-mi .btn {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    padding: 10px 0;
+  }
+  #sobre-mi h3 {
+    margin-top: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  #sobre-mi .lead {
+    margin-bottom: 1rem;
+  }
   .navbar-dark .navbar-nav .nav-link:focus {
     background: var(--secondary-color);
     color: #fff !important;
