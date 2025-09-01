@@ -350,6 +350,7 @@ section h2::after {
   display: flex;
   flex-wrap: wrap;
   margin-top: 15px;
+  gap: 8px;
 }
 
 .skill-tags .badge {
@@ -359,18 +360,50 @@ section h2::after {
     var(--gradient-end)
   );
   color: white;
-  margin: 0.3rem;
+  margin: 0.2rem;
   padding: 8px 18px;
   font-size: 0.85rem;
   font-weight: 500;
   border-radius: 30px;
   box-shadow: 0 2px 10px rgba(59, 130, 246, 0.2);
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .skill-tags .badge:hover {
   transform: translateY(-5px);
   box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Colores específicos para diferentes tipos de tecnologías */
+.skill-tags .badge.bg-primary {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
+}
+
+.skill-tags .badge.bg-success {
+  background: linear-gradient(135deg, #10b981, #065f46) !important;
+}
+
+.skill-tags .badge.bg-warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
+}
+
+.skill-tags .badge.bg-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+.skill-tags .badge.bg-info {
+  background: linear-gradient(135deg, #06b6d4, #0891b2) !important;
+}
+
+.skill-tags .badge.bg-secondary {
+  background: linear-gradient(135deg, #6b7280, #4b5563) !important;
+}
+
+.skill-tags .badge.bg-dark {
+  background: linear-gradient(135deg, #374151, #1f2937) !important;
 }
 
 /* Cards */
@@ -619,6 +652,21 @@ footer p {
   .skill-tags .badge {
     font-size: 0.75rem;
     padding: 6px 12px;
+    margin: 0.2rem;
+  }
+
+  /* Ajustar espaciado en sección sobre mí */
+  #sobre-mi .mb-4 {
+    margin-bottom: 1.5rem !important;
+  }
+
+  #sobre-mi p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  #sobre-mi ul li {
+    margin-bottom: 0.8rem;
   }
   .list-unstyled {
     margin-bottom: 1.2rem;
