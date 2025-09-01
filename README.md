@@ -218,7 +218,7 @@ AOS.init({
 - **Responsive breakpoints**: 4 tamaños de pantalla
 - **Animaciones AOS**: 15+ efectos implementados
 - **Tecnologías**: 8+ herramientas integradas
-- 
+
 ---
 
 ## � Contacto y Redes
