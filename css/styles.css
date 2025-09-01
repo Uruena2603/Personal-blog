@@ -518,6 +518,28 @@ footer p {
   .hero-section h1 {
     font-size: 2rem;
   }
+  h2,
+  h3,
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  p,
+  li,
+  .about-text,
+  .about-lead,
+  .card-text {
+    font-size: 0.98rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  .skill-tags .badge {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+  .list-unstyled {
+    margin-bottom: 1.2rem;
+  }
 
   .contact-form {
     padding: 1.5rem;
@@ -533,6 +555,23 @@ footer p {
   }
   .navbar-brand {
     font-size: 1.3rem;
+  }
+  .navbar-nav {
+    gap: 0.5rem;
+  }
+  .navbar-dark .navbar-nav .nav-link {
+    font-size: 1rem;
+    padding: 12px 0;
+    margin: 0 0;
+    text-align: center;
+    border-radius: 8px;
+    min-width: 120px;
+    transition: background 0.2s;
+  }
+  .navbar-dark .navbar-nav .nav-link:active,
+  .navbar-dark .navbar-nav .nav-link:focus {
+    background: var(--secondary-color);
+    color: #fff !important;
   }
 }
 
