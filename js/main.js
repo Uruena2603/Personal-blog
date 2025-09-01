@@ -132,13 +132,21 @@ document.addEventListener("DOMContentLoaded", function () {
           navbarToggler.click();
         }
 
-        // Tiempo de espera más largo en móviles para asegurar que el menú se cierre
-        const delay = isMobile ? 400 : 200;
+        // Tiempo de espera optimizado según dispositivo
+        let delay;
+        if (isMobile) {
+          delay = 400; // Móvil necesita más tiempo para cerrar el menú
+        } else if (window.innerWidth <= 1024) {
+          delay = 150; // iPad - más rápido
+        } else {
+          delay = 100; // Desktop - muy rápido
+        }
 
         setTimeout(() => {
           scrollToTarget(target, isMobile);
         }, delay);
       } else {
+        // Sin menú abierto - scroll inmediato
         scrollToTarget(target, isMobile);
       }
     });
@@ -186,23 +194,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // Función auxiliar para el scroll
+  // Función auxiliar para el scroll optimizada
   function scrollToTarget(target, isMobile) {
     const offsetTop = target.offsetTop - (isMobile ? 80 : 70);
 
-    // Usar scroll nativo para mejor compatibilidad móvil
+    // Detectar tipo de dispositivo para optimizar velocidad
+    const isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+    const isDesktop = window.innerWidth > 1024;
+
+    // Para móviles, usar scroll CSS nativo (ya configurado en CSS)
+    // Para desktop/tablet, usar JavaScript optimizado
     if (isMobile && "scrollBehavior" in document.documentElement.style) {
       window.scrollTo({
         top: offsetTop,
         behavior: "smooth",
       });
     } else {
-      // Fallback para dispositivos más antiguos
-      smoothScrollTo(offsetTop, isMobile ? 800 : 600);
+      // Usar JavaScript optimizado para desktop e iPad
+      let duration;
+      if (isMobile) {
+        duration = 600; // Móvil (fallback)
+      } else if (isTablet) {
+        duration = 350; // iPad - rápido
+      } else {
+        duration = 300; // Desktop - muy rápido
+      }
+
+      smoothScrollTo(offsetTop, duration);
     }
   }
 
-  // Función de smooth scroll manual para mejor control
+  // Función de smooth scroll manual optimizada
   function smoothScrollTo(targetPosition, duration) {
     const startPosition = window.pageYOffset;
     const distance = targetPosition - startPosition;
@@ -211,16 +233,22 @@ document.addEventListener("DOMContentLoaded", function () {
     function animation(currentTime) {
       if (startTime === null) startTime = currentTime;
       const timeElapsed = currentTime - startTime;
-      const run = ease(timeElapsed, startPosition, distance, duration);
+      const run = easeInOutCubic(
+        timeElapsed,
+        startPosition,
+        distance,
+        duration
+      );
       window.scrollTo(0, run);
       if (timeElapsed < duration) requestAnimationFrame(animation);
     }
 
-    function ease(t, b, c, d) {
+    // Función de easing más rápida y suave
+    function easeInOutCubic(t, b, c, d) {
       t /= d / 2;
-      if (t < 1) return (c / 2) * t * t + b;
-      t--;
-      return (-c / 2) * (t * (t - 2) - 1) + b;
+      if (t < 1) return (c / 2) * t * t * t + b;
+      t -= 2;
+      return (c / 2) * (t * t * t + 2) + b;
     }
 
     requestAnimationFrame(animation);

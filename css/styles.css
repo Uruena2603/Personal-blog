@@ -721,9 +721,23 @@ footer p {
   }
 }
 
-/* Scroll suave */
+/* Scroll suave optimizado por dispositivo */
 html {
   scroll-behavior: smooth;
+}
+
+/* Optimizar scroll para desktop y tablets */
+@media (min-width: 769px) {
+  html {
+    scroll-behavior: auto; /* Desactivar scroll CSS nativo para usar JavaScript optimizado */
+  }
+}
+
+/* Mantener scroll CSS nativo solo en móviles (funciona bien) */
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 /* Estilo general para secciones impares */
