@@ -519,6 +519,16 @@ footer p {
 }
 
 @media (max-width: 576px) {
+  .navbar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 9999;
+    margin: 0 !important;
+    box-sizing: border-box;
+  }
   .hero-section h1 {
     font-size: 2rem;
   }
