@@ -769,23 +769,9 @@ footer p {
   }
 }
 
-/* Scroll suave optimizado por dispositivo */
+/* Scroll suave */
 html {
   scroll-behavior: smooth;
-}
-
-/* Optimizar scroll para desktop y tablets */
-@media (min-width: 769px) {
-  html {
-    scroll-behavior: auto; /* Desactivar scroll CSS nativo para usar JavaScript optimizado */
-  }
-}
-
-/* Mantener scroll CSS nativo solo en móviles (funciona bien) */
-@media (max-width: 768px) {
-  html {
-    scroll-behavior: smooth;
-  }
 }
 
 /* Estilo general para secciones impares */
@@ -845,4 +831,15 @@ section:nth-child(even) {
 .card {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
   touch-action: manipulation;
+}
+
+/* Estilos específicos para AOS en móviles - simplificado */
+@media (max-width: 768px) {
+  /* Solo aceleración por hardware para mejor rendimiento en móvil */
+  [data-aos] {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+  }
 }

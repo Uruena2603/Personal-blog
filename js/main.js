@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   let currentOrientation =
     window.innerHeight > window.innerWidth ? "portrait" : "landscape";
+  console.log("Current orientation:", currentOrientation);
 
-  // Detector de cambio de orientación
+  // Detector de cambio de orientación mejorado
   function handleOrientationChange() {
     const newOrientation =
       window.innerHeight > window.innerWidth ? "portrait" : "landscape";
@@ -23,13 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (navbarToggler) navbarToggler.click();
       }
 
-      // Pequeño delay para que se ajuste el layout
+      // Reinicializar AOS después del cambio de orientación
       setTimeout(() => {
-        // Re-calcular AOS si es necesario
         if (typeof AOS !== "undefined") {
           AOS.refresh();
+          // Forzar recálculo en móviles
+          if (window.innerWidth <= 768) {
+            AOS.refreshHard();
+          }
         }
-      }, 100);
+      }, 300); // Aumentar delay para asegurar que el layout se actualice
     }
   }
 
@@ -37,17 +41,29 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("resize", handleOrientationChange);
   window.addEventListener("orientationchange", handleOrientationChange);
 
-  // Inicializar AOS (Animate On Scroll)
+  // Inicializar AOS (Animate On Scroll) optimizado para todos los dispositivos
   AOS.init({
-    duration: 800,
+    duration: window.innerWidth <= 768 ? 600 : 800, // Animaciones más rápidas en móvil
     easing: "ease-in-out",
-    once: false,
-    mirror: false,
+    once: false, // Volver a false para que funcionen en ambas direcciones
+    mirror: true, // Volver a true para animaciones al subir también
+    offset: window.innerWidth <= 768 ? 50 : 120, // Offset más pequeño en móvil
+    throttleDelay: window.innerWidth <= 768 ? 50 : 99, // Más responsivo en móvil
+    debounceDelay: window.innerWidth <= 768 ? 25 : 50, // Reducir delay para mejor responsividad
+    // CLAVE: Solo deshabilitar en móviles MUY pequeños
     disable: function () {
-      // Deshabilitar AOS en móviles muy pequeños para mejor rendimiento
-      return window.innerWidth < 480;
+      return window.innerWidth < 350; // Solo deshabilitar en pantallas extremadamente pequeñas
     },
+    startEvent: "DOMContentLoaded",
   });
+
+  // Verificación simple para móviles
+  setTimeout(() => {
+    if (window.innerWidth <= 768 && typeof AOS !== "undefined") {
+      // Solo un refresh suave para móviles
+      AOS.refresh();
+    }
+  }, 1000);
 
   // Navbar scroll effect con transición suave
   const navbar = document.querySelector(".navbar");
