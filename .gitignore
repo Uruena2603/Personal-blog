@@ -1,0 +1,9 @@
+# Entorno local de Claude Code — no se versiona
+.claude/
+CLAUDE.md
+.mcp.json
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
