@@ -1,0 +1,131 @@
+---
+// Solo trabajo real y verificable. Fuera quedan las demos (California.pei,
+// Mike Ruiz) y todo lo que no aguante que alguien lo abra y lo revise.
+const projects = [
+  {
+    name: "Mina's Massage",
+    meta: "Dallas y Miami, EE. UU.",
+    body: "Sitio bilingüe para una clínica de terapia post-quirúrgica en Estados Unidos. Reservas, reseñas y dominio propio.",
+    tags: ["Next.js", "TypeScript", "Supabase", "Framer Motion"],
+    href: "https://minasmassage.com",
+    linkLabel: "minasmassage.com",
+  },
+  {
+    name: "A Viajar Tours",
+    meta: "Pereira, Colombia · RNT 281494",
+    body: "Agencia de viajes con registro nacional de turismo. Catálogo de paquetes, itinerarios detallados y contacto directo por WhatsApp.",
+    tags: ["Next.js", "shadcn/ui", "Cloudflare Pages"],
+    href: "https://a-viajar-tours.pages.dev",
+    linkLabel: "a-viajar-tours.pages.dev",
+  },
+  {
+    name: "ECMO",
+    meta: "Embudo de captación · Salud",
+    body: "Landing, captura de leads y entrada a grupo de WhatsApp para un médico que vende formación. Más de 250 registros.",
+    tags: ["Next.js", "Cloudflare Functions", "Supabase", "GA4"],
+    href: "https://ecmo-lp.pages.dev",
+    linkLabel: "ecmo-lp.pages.dev",
+    featured: true,
+  },
+  {
+    name: "Bordados Infantiles Ororo",
+    meta: "Colombia",
+    body: "Multilink de redes sociales y soporte técnico de campaña para una marca de bordados infantiles.",
+    tags: ["Multilink", "Meta Pixel"],
+  },
+];
+---
+
+<section class="section section--bordered" id="trabajo">
+  <div class="container">
+    <p class="eyebrow">Trabajo de cliente</p>
+    <h2 class="section-title">Ocho proyectos en producción desde marzo de 2026.</h2>
+    <p class="section-lead">
+      Estos cuatro son los que puedes abrir y comprobar ahora mismo.
+    </p>
+
+    <ul class="grid grid--2 work__list">
+      {
+        projects.map((project) => (
+          <li>
+            <article class:list={["card", project.featured && "card--featured"]}>
+              {project.featured && (
+                <span class="card__badge">Caso destacado</span>
+              )}
+              <p class="card__meta">{project.meta}</p>
+              <h3 class="card__title">{project.name}</h3>
+              <p class="card__body">{project.body}</p>
+              <ul class="tags">
+                {project.tags.map((tag) => (
+                  <li class="tag">{tag}</li>
+                ))}
+              </ul>
+              {project.href && (
+                <a
+                  class="card__link"
+                  href={project.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {project.linkLabel}
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M7 17 17 7M7 7h10v10" />
+                  </svg>
+                </a>
+              )}
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .work__list {
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .work__list > li {
+    display: flex;
+  }
+
+  .work__list .card {
+    width: 100%;
+  }
+
+  .card--featured {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    /* Tinte al 7 %, no al 14 %: con el tinte fuerte el fondo subía lo
+       suficiente para que .card__meta volviera a fallar el contraste AA. */
+    background: linear-gradient(
+      160deg,
+      rgba(167, 139, 250, 0.07),
+      var(--surface) 55%
+    );
+  }
+
+  .card__badge {
+    align-self: flex-start;
+    margin-bottom: 0.9rem;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background: var(--accent);
+    color: #08080f;
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+</style>

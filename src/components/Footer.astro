@@ -1,0 +1,76 @@
+---
+const social = [
+  { href: "https://github.com/Uruena2603", label: "GitHub" },
+  {
+    href: "https://www.linkedin.com/in/juan-alejandro-urueña-serna-1a15122a2",
+    label: "LinkedIn",
+  },
+  { href: "mailto:alejourus2003@gmail.com", label: "Correo" },
+];
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__name">Juan Alejandro Urueña Serna</p>
+    <ul class="footer__links">
+      {
+        social.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              target={item.href.startsWith("mailto:") ? undefined : "_blank"}
+              rel="noopener noreferrer"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="footer__meta">Pereira, Colombia · © {year}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: 2.5rem;
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 2rem;
+  }
+
+  .footer__name {
+    font-weight: 600;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__links a {
+    color: var(--text-muted);
+    font-size: var(--step--1);
+    transition: color 0.25s var(--ease);
+  }
+
+  .footer__links a:hover {
+    color: var(--accent-2);
+  }
+
+  .footer__meta {
+    margin-left: auto;
+    color: var(--text-dim);
+    font-size: var(--step--1);
+  }
+</style>

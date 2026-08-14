@@ -1,0 +1,84 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL("/og.png", Astro.site).href;
+
+// Datos estructurados: sin esto Google no sabe que la página describe a una persona.
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Juan Alejandro Urueña Serna",
+  jobTitle: "Ingeniero de Sistemas y Telecomunicaciones",
+  email: "mailto:alejourus2003@gmail.com",
+  url: canonical,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Pereira",
+    addressRegion: "Risaralda",
+    addressCountry: "CO",
+  },
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Universidad Católica de Pereira",
+  },
+  knowsAbout: [
+    "Next.js",
+    "TypeScript",
+    "Astro",
+    "Supabase",
+    "Cloudflare Workers",
+    "n8n",
+    "Deep Learning",
+    "Mantenimiento predictivo",
+  ],
+  sameAs: [
+    "https://github.com/Uruena2603",
+    "https://www.linkedin.com/in/juan-alejandro-urueña-serna-1a15122a2",
+  ],
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content="Juan Alejandro Urueña Serna" />
+    <meta name="theme-color" content="#07080c" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Juan Alejandro Urueña Serna" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <script
+      is:inline
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+  </body>
+</html>

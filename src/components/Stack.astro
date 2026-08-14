@@ -1,0 +1,73 @@
+---
+// El stack que uso de verdad en 2026, no el que aprendí en la carrera.
+// En la fase 2 esto pasa a una marquesina LogoLoop de ReactBits.
+const groups = [
+  {
+    label: "Construir",
+    items: ["Next.js", "TypeScript", "React", "Astro", "Tailwind", "shadcn/ui"],
+  },
+  {
+    label: "Datos y backend",
+    items: ["Supabase", "PostgreSQL", "Cloudflare Functions", "Python"],
+  },
+  {
+    label: "Desplegar",
+    items: ["Cloudflare Pages", "Vercel", "Coolify", "Git"],
+  },
+  {
+    label: "Medir y automatizar",
+    items: ["GA4", "Meta Pixel", "Microsoft Clarity", "n8n"],
+  },
+];
+---
+
+<section class="section section--bordered stack-section" aria-labelledby="stack-title">
+  <div class="container">
+    <p class="eyebrow">Stack</p>
+    <h2 class="section-title" id="stack-title">Con lo que trabajo hoy.</h2>
+
+    <div class="stack__groups">
+      {
+        groups.map((group) => (
+          <div class="stack__group">
+            <h3 class="stack__label">{group.label}</h3>
+            <ul class="tags stack__tags">
+              {group.items.map((item) => (
+                <li class="tag">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack__groups {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2rem;
+  }
+
+  .stack__label {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stack__tags {
+    margin-top: 1rem;
+  }
+
+  @media (min-width: 700px) {
+    .stack__groups {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+  }
+</style>

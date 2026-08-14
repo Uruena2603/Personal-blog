@@ -1,0 +1,150 @@
+---
+// La sección con más peso del sitio: es la única prueba con números.
+// En la fase 3 recibe el Particle Reveal de CanvasUI (client:visible, escritorio).
+const steps = [
+  {
+    n: "01",
+    title: "El problema",
+    body: "Un médico con audiencia pero sin forma de capturarla. Su contenido se perdía en redes y no quedaba nada suyo al otro lado.",
+  },
+  {
+    n: "02",
+    title: "Lo que construí",
+    body: "Una landing que entrega un ebook a cambio del correo, guarda el lead y lo lleva al grupo de WhatsApp donde él vende su formación.",
+  },
+  {
+    n: "03",
+    title: "Cómo se conecta",
+    body: "El sitio es estático y se sirve desde el borde de Cloudflare: carga rápido y no hay servidor que mantener. El único punto dinámico es una Cloudflare Function que recibe el formulario y escribe en Supabase. GA4, Meta Pixel y Microsoft Clarity para ver dónde abandona la gente.",
+  },
+];
+
+const results = [
+  { value: "250+", label: "registros captados" },
+  { value: "~170", label: "personas en el grupo de WhatsApp" },
+];
+---
+
+<section class="section section--bordered case" id="caso">
+  <div class="container">
+    <p class="eyebrow">Caso destacado</p>
+    <h2 class="section-title">El embudo de ECMO, de principio a fin.</h2>
+    <p class="section-lead">
+      La pauta la llevó mi hermano. Todo lo que hay debajo — el sitio, la
+      captura, la base de datos y la medición — lo construí y lo conecté yo.
+    </p>
+
+    <ol class="case__steps">
+      {
+        steps.map((step) => (
+          <li class="case__step">
+            <span class="case__n">{step.n}</span>
+            <div>
+              <h3 class="case__title">{step.title}</h3>
+              <p class="case__body">{step.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="case__results">
+      {
+        results.map((result) => (
+          <div class="case__result">
+            <span class="case__value">{result.value}</span>
+            <span class="case__label">{result.label}</span>
+          </div>
+        ))
+      }
+      <a
+        class="btn btn--ghost case__cta"
+        href="https://ecmo-lp.pages.dev"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Ver el embudo
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .case {
+    background: var(--bg-raised);
+  }
+
+  .case__steps {
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .case__step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .case__step:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .case__n {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: var(--step--1);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding-top: 0.35rem;
+  }
+
+  .case__title {
+    font-size: var(--step-1);
+  }
+
+  .case__body {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+
+  .case__results {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+    margin-top: 3rem;
+    padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    border-radius: var(--radius-lg);
+    background: var(--accent-soft);
+  }
+
+  .case__result {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .case__value {
+    font-size: var(--step-4);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .case__label {
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    margin-top: 0.3rem;
+  }
+
+  .case__cta {
+    margin-left: auto;
+  }
+</style>

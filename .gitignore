@@ -3,6 +3,11 @@
 CLAUDE.md
 .mcp.json
 
+# Build de Astro
+node_modules/
+dist/
+.astro/
+
 # Sistema operativo
 Thumbs.db
 desktop.ini

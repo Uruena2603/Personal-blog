@@ -1,0 +1,102 @@
+---
+// El <h1> es texto plano y pre-renderizado: es el elemento LCP.
+// Ningún canvas ni imagen puede ocupar ese puesto (presupuesto de CLAUDE.md).
+---
+
+<section class="hero" id="inicio">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <h1 class="hero__heading">
+      <span class="hero__name">Juan Alejandro Urueña Serna</span>
+      <!-- El texto y el <span> van en la misma línea a propósito: con un salto
+           entre ambos el compilador colapsa el espacio y sale «conviertentráfico». -->
+      <span class="hero__claim">
+        Construyo los sistemas que convierten <span class="gradient-text">tráfico en clientes</span>.
+      </span>
+    </h1>
+
+    <p class="hero__support">
+      Ingeniero de Sistemas y Telecomunicaciones. Sitio, captura de leads,
+      medición y automatización — de punta a punta.
+    </p>
+
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#trabajo">Ver el trabajo</a>
+      <a class="btn btn--ghost" href="#contacto">Hablemos</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-block: 7rem 4rem;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  /* Resplandor estático en CSS. En la fase 2 el fondo Aurora (WebGL) monta
+     encima con client:idle, así que este queda como base y como respaldo
+     para móvil y prefers-reduced-motion. */
+  .hero__glow {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(
+        60% 50% at 18% 8%,
+        rgba(167, 139, 250, 0.16),
+        transparent 70%
+      ),
+      radial-gradient(
+        50% 45% at 88% 30%,
+        rgba(34, 211, 238, 0.11),
+        transparent 70%
+      );
+  }
+
+  .hero__inner {
+    max-width: 1180px;
+  }
+
+  .hero__heading {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    max-width: 24ch;
+  }
+
+  .hero__name {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      monospace;
+    font-size: var(--step--1);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .hero__claim {
+    font-size: var(--step-5);
+    letter-spacing: -0.032em;
+    line-height: 1.02;
+    text-wrap: balance;
+  }
+
+  .hero__support {
+    margin-top: 1.75rem;
+    max-width: 52ch;
+    font-size: var(--step-1);
+    color: var(--text-muted);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    margin-top: 2.5rem;
+  }
+</style>

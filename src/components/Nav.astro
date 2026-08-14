@@ -1,0 +1,93 @@
+---
+const links = [
+  { href: "#trabajo", label: "Trabajo" },
+  { href: "#caso", label: "Caso" },
+  { href: "#ingenieria", label: "Ingeniería" },
+  { href: "#contacto", label: "Contacto" },
+];
+---
+
+<header class="nav">
+  <nav class="nav__inner" aria-label="Navegación principal">
+    <a class="nav__brand" href="#inicio">
+      JU<span aria-hidden="true">.</span>
+      <span class="visually-hidden">Inicio</span>
+    </a>
+    <ul class="nav__list">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  /* Barra de píldoras con desplazamiento horizontal en móvil.
+     Sin hamburguesa y sin JavaScript: un estado menos que puede fallar. */
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0.75rem var(--gutter);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__inner {
+    max-width: 1180px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .nav__brand {
+    font-weight: 700;
+    font-size: var(--step-1);
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+  }
+
+  .nav__brand span {
+    color: var(--accent);
+  }
+
+  .nav__list {
+    display: flex;
+    gap: 0.35rem;
+    margin: 0;
+    margin-left: auto;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav__list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav__list a {
+    display: block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.25s var(--ease), background-color 0.25s var(--ease);
+  }
+
+  .nav__list a:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+// Sin enlaces: el despliegue del proyecto de grado está caído y los derechos
+// patrimoniales son de la universidad. HandOff Chat está pausado.
+// Enlazar cualquiera de los dos sería peor que describirlos bien.
+const items = [
+  {
+    kind: "Proyecto de grado · Universidad Católica de Pereira",
+    title:
+      "Evaluación de algoritmos de Deep Learning para un sistema de mantenimiento predictivo mediante diseño de experimentos",
+    body: "Comparé RNN, LSTM, CNN y TCN sobre datos de vibración de maquinaria industrial aplicando diseño de experimentos, y construí el software web que muestra las predicciones en tiempo real.",
+    tags: ["Python", "RNN", "LSTM", "CNN", "TCN", "Diseño de experimentos"],
+  },
+  {
+    kind: "Producto propio · pausado",
+    title: "HandOff Chat — agentes de IA para atención por WhatsApp",
+    body: "Desarrollé los agentes sobre n8n, las demos, la landing y parte de la aplicación web. Meta eliminó la ventana gratuita de 24 horas de la API de WhatsApp Business, la economía del producto dejó de cerrar y lo pausamos.",
+    tags: ["n8n", "Agentes de IA", "WhatsApp Business API", "Next.js"],
+  },
+];
+---
+
+<section class="section section--bordered" id="ingenieria">
+  <div class="container">
+    <p class="eyebrow">Ingeniería</p>
+    <h2 class="section-title">Antes de los embudos, y en paralelo a ellos.</h2>
+
+    <div class="grid eng__list">
+      {
+        items.map((item) => (
+          <article class="card">
+            <p class="card__meta">{item.kind}</p>
+            <h3 class="eng__title">{item.title}</h3>
+            <p class="card__body">{item.body}</p>
+            <ul class="tags">
+              {item.tags.map((tag) => (
+                <li class="tag">{tag}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .eng__list {
+    margin-top: 3rem;
+  }
+
+  .eng__title {
+    font-size: var(--step-1);
+    margin-top: 0.5rem;
+    max-width: 46ch;
+  }
+
+  @media (min-width: 860px) {
+    .eng__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
