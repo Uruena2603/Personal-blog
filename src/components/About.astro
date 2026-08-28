@@ -1,0 +1,86 @@
+---
+// El hilo conductor de toda la trayectoria, no solo de 2026.
+// Referencia: Charlie Gerard une ML, hardware, web y ciberseguridad bajo un
+// único marco (interacción humano-computadora). El marco de aquí es que
+// siempre se construye la cadena completa, no una capa suelta.
+const chain = [
+  {
+    year: "2025",
+    title: "Del sensor al modelo",
+    body: "Proyecto de grado: datos de vibración de maquinaria industrial, cuatro arquitecturas de deep learning comparadas con diseño de experimentos, y el software web que muestra las predicciones en tiempo real.",
+  },
+  {
+    year: "2026",
+    title: "De la landing al despliegue",
+    body: "Diez proyectos en producción: el sitio, la base de datos que recibe los leads, la medición que dice si funciona y la automatización de lo que pasa después.",
+  },
+];
+---
+
+<section class="section section--bordered about" id="sobre-mi">
+  <div class="container">
+    <p class="eyebrow">Sobre mí</p>
+    <h2 class="section-title">La misma forma, dos contextos.</h2>
+    <p class="section-lead">
+      No me especializo en una capa. En la universidad el encargo fue llevar una
+      señal de un sensor hasta una predicción en pantalla. Ahora el encargo es
+      llevar a un visitante desde un anuncio hasta una conversación. Cambia el
+      dominio; la cadena se construye igual.
+    </p>
+
+    <ol class="about__chain">
+      {
+        chain.map((link) => (
+          <li class="about__link">
+            <span class="about__year">{link.year}</span>
+            <div>
+              <h3 class="about__title">{link.title}</h3>
+              <p class="about__body">{link.body}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .about__chain {
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .about__link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about__link:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .about__year {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: var(--step--1);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding-top: 0.35rem;
+  }
+
+  .about__title {
+    font-size: var(--step-1);
+  }
+
+  .about__body {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+</style>

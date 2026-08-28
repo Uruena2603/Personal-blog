@@ -1,0 +1,169 @@
+---
+// Inventario COMPLETO de la carrera, no solo del stack de 2026.
+// Va por capas de profundidad a propósito: así se muestra toda la amplitud
+// sin firmar cheques que no se puedan cobrar en una entrevista técnica.
+const tiers = [
+  {
+    label: "Lo que uso hoy",
+    note: "Trabajo con esto cada semana y lo tengo en producción.",
+    groups: [
+      {
+        name: "Web",
+        items: ["Next.js", "TypeScript", "React", "Astro", "Tailwind", "shadcn/ui"],
+      },
+      {
+        name: "Datos y backend",
+        items: ["Supabase", "PostgreSQL", "Cloudflare Functions"],
+      },
+      {
+        name: "Despliegue",
+        items: ["Cloudflare Pages", "Vercel", "Coolify", "Git"],
+      },
+      {
+        name: "Medición y automatización",
+        items: ["n8n", "GA4", "Meta Pixel", "Microsoft Clarity"],
+      },
+    ],
+  },
+  {
+    label: "Formación e investigación",
+    note: "Lo estudié en la carrera y lo apliqué en proyectos académicos y de grado.",
+    groups: [
+      {
+        name: "IA y datos",
+        items: [
+          "Python",
+          "TensorFlow",
+          "PyTorch",
+          "scikit-learn",
+          "Pandas",
+          "RNN",
+          "LSTM",
+          "CNN",
+          "TCN",
+          "Diseño de experimentos",
+        ],
+      },
+      {
+        name: "Backend y arquitectura",
+        items: [
+          "Java",
+          "Spring Boot",
+          "Microservicios",
+          "Flask",
+          "FastAPI",
+          "Node.js",
+          "C++",
+          "PHP",
+        ],
+      },
+      {
+        name: "Frontend y pruebas",
+        items: ["Angular", "JavaScript", "HTML/CSS", "Cypress"],
+      },
+      {
+        name: "Bases de datos",
+        items: ["MySQL", "SQL Server"],
+      },
+      {
+        name: "Telecomunicaciones e IoT",
+        items: ["MQTT", "Arduino", "Redes", "Web scraping"],
+      },
+    ],
+  },
+  {
+    label: "Explorando",
+    note: "Práctica personal en curso. Lo digo como lo que es: aprendizaje, no oficio.",
+    groups: [
+      {
+        name: "Seguridad",
+        items: ["Hack The Box", "OverTheWire", "nmap", "nikto"],
+      },
+    ],
+  },
+];
+---
+
+<section class="section section--bordered" id="conocimientos">
+  <div class="container">
+    <p class="eyebrow">Conocimientos</p>
+    <h2 class="section-title">Cinco años de carrera, ordenados por profundidad.</h2>
+    <p class="section-lead">
+      Está todo, pero separado con honestidad: lo que sostengo a fondo, lo que
+      estudié y apliqué, y lo que apenas estoy explorando.
+    </p>
+
+    <div class="tiers">
+      {
+        tiers.map((tier) => (
+          <section class="tier">
+            <header class="tier__head">
+              <h3 class="tier__label">{tier.label}</h3>
+              <p class="tier__note">{tier.note}</p>
+            </header>
+            <div class="tier__groups">
+              {tier.groups.map((group) => (
+                <div class="tier__group">
+                  <h4 class="tier__group-name">{group.name}</h4>
+                  <ul class="tags">
+                    {group.items.map((item) => (
+                      <li class="tag">{item}</li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .tiers {
+    margin-top: 3rem;
+    display: grid;
+    gap: 2.75rem;
+  }
+
+  .tier__head {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tier__label {
+    font-size: var(--step-1);
+  }
+
+  .tier__note {
+    margin-top: 0.35rem;
+    color: var(--text-muted);
+    font-size: var(--step--1);
+  }
+
+  .tier__groups {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .tier__group-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: var(--step--1);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+
+  .tier__group .tags {
+    margin-top: 0.75rem;
+  }
+
+  @media (min-width: 760px) {
+    .tier__groups {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.75rem 2.5rem;
+    }
+  }
+</style>

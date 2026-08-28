@@ -3,18 +3,18 @@ import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import Proof from "../components/Proof.astro";
+import About from "../components/About.astro";
 import ClientWork from "../components/ClientWork.astro";
 import CaseStudy from "../components/CaseStudy.astro";
 import Engineering from "../components/Engineering.astro";
-import Stack from "../components/Stack.astro";
-import HowIWork from "../components/HowIWork.astro";
+import Knowledge from "../components/Knowledge.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
 
 const title =
-  "Juan Alejandro Urueña Serna | Sitios, embudos y automatización";
+  "Juan Alejandro Urueña Serna | Ingeniero de Sistemas y Telecomunicaciones";
 const description =
-  "Ingeniero de Sistemas y Telecomunicaciones en Pereira. Construyo sitios, captura de leads, medición y automatización. Diez proyectos en producción y un embudo con más de 250 registros.";
+  "Ingeniero de Sistemas y Telecomunicaciones en Pereira. Construyo sistemas completos: del sensor al modelo y de la landing al despliegue. Diez proyectos en producción y un proyecto de grado en deep learning aplicado a mantenimiento predictivo.";
 ---
 
 <Base title={title} description={description}>
@@ -22,11 +22,11 @@ const description =
   <main id="contenido">
     <Hero />
     <Proof />
+    <About />
     <ClientWork />
     <CaseStudy />
     <Engineering />
-    <Stack />
-    <HowIWork />
+    <Knowledge />
     <Contact />
   </main>
   <Footer />
