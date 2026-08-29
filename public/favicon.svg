@@ -1,11 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Monograma J dibujado como trazo: el <text> anterior dependía de la
+       fuente del sistema y se veía distinto en cada equipo. La barra superior
+       hace eco de la serif Fraunces de los titulares. -->
   <defs>
     <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#a78bfa" />
-      <stop offset="100%" stop-color="#22d3ee" />
+      <stop offset="0" stop-color="#a78bfa" />
+      <stop offset="1" stop-color="#22d3ee" />
     </linearGradient>
   </defs>
-  <rect width="64" height="64" rx="14" fill="#07080c" />
-  <text x="32" y="43" font-family="system-ui, sans-serif" font-size="30"
-        font-weight="700" fill="url(#g)" text-anchor="middle">JU</text>
+  <rect width="64" height="64" rx="14" fill="#0d0f16" />
+  <path
+    d="M31 13h18M44.5 13.5v22.5a12.5 12.5 0 0 1-25 0"
+    fill="none"
+    stroke="url(#g)"
+    stroke-width="7"
+    stroke-linecap="round"
+  />
 </svg>

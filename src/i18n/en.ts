@@ -5,9 +5,10 @@ export const en: Dictionary = {
   meta: {
     lang: "en",
     ogLocale: "en_US",
+    ogLocaleAlternate: "es_CO",
     title: "Juan Alejandro Urueña Serna | Systems and Telecommunications Engineer",
     description:
-      "Systems and Telecommunications Engineer in Pereira, Colombia. I build complete systems: from the sensor to the model and from the landing page to deployment. Ten projects in production and a degree project in deep learning applied to predictive maintenance.",
+      "Systems and Telecommunications Engineer. Websites, funnels, and AI automation for clients in the U.S. and Colombia. Ten projects in production.",
     jobTitle: "Systems and Telecommunications Engineer",
     skipLink: "Skip to content",
   },

@@ -1,0 +1,26 @@
+# Juan Alejandro Urueña Serna
+
+> Personal site of Juan Alejandro Urueña Serna, Systems and Telecommunications Engineer and full-stack developer based in Pereira, Colombia. He builds complete web systems for clients in the United States and Colombia: websites, funnels with lead capture and analytics, and AI automation. He develops with AI agents under a written engineering cycle: define, plan, build, verify, ship.
+
+Key facts:
+
+- Ten projects in production across two countries; each one is linked from the site with its role stated honestly (client work, own product, demo, or participation).
+- Stack: Next.js, React, Astro, TypeScript, Supabase, PostgreSQL, Cloudflare, n8n, and LLM APIs.
+- Degree project: deep learning applied to predictive maintenance of industrial machinery (TensorFlow/Keras, FastAPI, MQTT ingestion).
+- Contact: alejourus2003@gmail.com
+
+## Pages
+
+- [Home (English)](https://juan-alejandro-uruena.pages.dev/): work, featured case study, engineering approach, skills, and contact
+- [Inicio (español)](https://juan-alejandro-uruena.pages.dev/es/): the same content in Spanish
+
+## Profiles
+
+- [GitHub](https://github.com/Uruena2603): public code and pinned projects
+- [LinkedIn](https://www.linkedin.com/in/juan-alejandro-urueña-serna): professional profile in Spanish and English
+
+## Optional
+
+- [Résumé (PDF, English)](https://juan-alejandro-uruena.pages.dev/cv/Juan-Alejandro-Uruena-CV-EN.pdf)
+- [Hoja de vida (PDF, español)](https://juan-alejandro-uruena.pages.dev/cv/Juan-Alejandro-Uruena-CV-ES.pdf)
+- [Agent workflow](https://github.com/Uruena2603/Personal-blog/tree/main/docs/agent-workflow): how this site is built and verified with AI agents

@@ -1,0 +1,63 @@
+---
+// Sin un 404.html en la raíz, Cloudflare Pages asume que el sitio es una SPA
+// y responde 200 con la portada en cualquier ruta inexistente (soft-404 para
+// Google). Este archivo compila a dist/404.html y Pages pasa a responder 404.
+// Página única bilingüe: un 404 estático sirve a todas las rutas.
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>404 | Juan Alejandro Urueña Serna</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#07080c" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <main class="notfound">
+      <p class="eyebrow">404</p>
+      <h1 class="notfound__title">Page not found</h1>
+      <p class="notfound__body" lang="es">Esta página no existe.</p>
+      <div class="notfound__actions">
+        <a class="btn btn--primary" href="/">Go home</a>
+        <a class="btn btn--ghost" href="/es/" lang="es">Ir al inicio</a>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .notfound {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    padding: var(--gutter);
+  }
+
+  .notfound .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .notfound__title {
+    font-size: var(--step-4);
+  }
+
+  .notfound__body {
+    color: var(--text-muted);
+  }
+
+  .notfound__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+</style>
