@@ -31,8 +31,12 @@ const { t } = Astro.props;
           />
           {t.greeting}
         </span>
+        {/* client:idle y no client:load: con load, React+GSAP se evalúan
+            compitiendo con el primer pintado y el LCP móvil subía a ~2.8 s
+            (medido en producción). El texto ya viene pintado por SSR y la
+            animación de todas formas espera a document.fonts. */}
         <span class="hero__claim"><SplitText
-            client:load
+            client:idle
             pre={t.claimPre}
             highlight={t.claimHighlight}
             post={t.claimPost}
