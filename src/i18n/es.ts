@@ -4,10 +4,12 @@ export const es = {
   meta: {
     lang: "es",
     ogLocale: "es_CO",
+    ogLocaleAlternate: "en_US",
     title:
       "Juan Alejandro Urueña Serna | Ingeniero de Sistemas y Telecomunicaciones",
+    // Google corta la descripción en ~160 caracteres: el pitch debe caber entero.
     description:
-      "Ingeniero de Sistemas y Telecomunicaciones en Pereira. Construyo sistemas completos: del sensor al modelo y de la landing al despliegue. Diez proyectos en producción y un proyecto de grado en deep learning aplicado a mantenimiento predictivo.",
+      "Ingeniero de Sistemas y Telecomunicaciones. Sitios, embudos y automatización con agentes de IA para clientes en EE. UU. y Colombia. Diez proyectos en producción.",
     jobTitle: "Ingeniero de Sistemas y Telecomunicaciones",
     skipLink: "Saltar al contenido",
   },

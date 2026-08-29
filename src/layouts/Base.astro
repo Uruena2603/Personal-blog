@@ -22,13 +22,15 @@ const alternates = {
 };
 
 // Datos estructurados: sin esto Google no sabe que la página describe a una persona.
+// El @id fijo hace que / y /es/ declaren LA MISMA entidad y Google las consolide.
 const personSchema = {
-  "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${alternates.en}#person`,
   name: "Juan Alejandro Urueña Serna",
   jobTitle: t.jobTitle,
   email: "mailto:alejourus2003@gmail.com",
-  url: canonical,
+  url: alternates.en,
+  image: new URL("/img/perfil/pfp.jpg", Astro.site).href,
   address: {
     "@type": "PostalAddress",
     addressLocality: "Pereira",
@@ -53,6 +55,21 @@ const personSchema = {
     "https://github.com/Uruena2603",
     "https://www.linkedin.com/in/juan-alejandro-urueña-serna",
   ],
+};
+
+// El nombre de sitio en Google sale del schema WebSite y solo se lee en la
+// página raíz (developers.google.com/search/docs/appearance/site-names):
+// sin él, los resultados mostrarían "juan-alejandro-uruena.pages.dev".
+const isRoot = Astro.url.pathname === "/";
+const webSiteSchema = {
+  "@type": "WebSite",
+  name: "Juan Alejandro Urueña Serna",
+  alternateName: "Juan Urueña",
+  url: alternates.en,
+};
+const schema = {
+  "@context": "https://schema.org",
+  "@graph": isRoot ? [webSiteSchema, personSchema] : [personSchema],
 };
 ---
 
@@ -82,6 +99,7 @@ const personSchema = {
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:locale:alternate" content={t.ogLocaleAlternate} />
     <meta property="og:site_name" content="Juan Alejandro Urueña Serna" />
     <meta property="og:title" content={t.title} />
     <meta property="og:description" content={t.description} />
@@ -98,7 +116,7 @@ const personSchema = {
     <script
       is:inline
       type="application/ld+json"
-      set:html={JSON.stringify(personSchema)}
+      set:html={JSON.stringify(schema)}
     />
   </head>
   <body>
