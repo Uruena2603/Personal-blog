@@ -1,0 +1,217 @@
+---
+// El hilo conductor de toda la trayectoria: siempre se construye la cadena
+// completa. Los servicios de 2026 se muestran como eslabones encadenados,
+// no como tarjetas sueltas.
+import type { Dictionary } from "../i18n/es";
+
+interface Props {
+  t: Dictionary["about"];
+}
+
+const { t } = Astro.props;
+
+// Iconos de los eslabones: sitio, embudo, agente.
+const stepIcons = [
+  "M2 5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5zM8 21h8m-4-3v3",
+  "M3 4h18l-7 8v6l-4 2v-8L3 4z",
+  "M12 8V4m0 4a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4 4 4 0 0 1-4-4v-4a4 4 0 0 1 4-4zm-8 6H2m20 0h-2M9 13h.01M15 13h.01",
+];
+---
+
+<section class="section section--bordered about" id="about">
+  <div class="container">
+    <p class="eyebrow">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        ><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle
+          cx="12"
+          cy="7"
+          r="4"></circle></svg
+      >
+      {t.eyebrow}
+    </p>
+    <h2 class="section-title">{t.title}</h2>
+    <p class="section-lead">{t.lead}</p>
+
+    <ol class="about__chain">
+      {
+        t.chain.map((link) => (
+          <li class="about__link">
+            <span class="about__year">{link.year}</span>
+            <div>
+              <h3 class="about__title">{link.title}</h3>
+              <p class="about__body">{link.body}</p>
+              {link.steps.length > 0 && (
+                <div class="about__steps">
+                  {link.steps.map((step, i) => (
+                    <>
+                      {i > 0 && (
+                        <span class="about__step-arrow" aria-hidden="true">
+                          →
+                        </span>
+                      )}
+                      <span class="about__step">
+                        <svg
+                          width="15"
+                          height="15"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="1.8"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d={stepIcons[i]} />
+                        </svg>
+                        {step}
+                      </span>
+                    </>
+                  ))}
+                </div>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <a
+      class="about__workflow"
+      href={t.workflow.href}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {t.workflow.label}
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"><path d="M7 17 17 7M7 7h10v10"></path></svg
+      >
+    </a>
+  </div>
+</section>
+
+<style>
+  .about__chain {
+    margin: 3rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .about__link {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.1rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .about__link:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .about__year {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: var(--step--1);
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    padding-top: 0.35rem;
+  }
+
+  .about__title {
+    font-size: var(--step-1);
+  }
+
+  .about__body {
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    max-width: var(--measure);
+  }
+
+  /* Eslabones: pila centrada con flechas hacia abajo en móvil, cadena
+     horizontal con más ancho. */
+  .about__steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+    margin-top: 1.25rem;
+  }
+
+  .about__step {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    font-size: var(--step--1);
+    font-weight: 550;
+  }
+
+  .about__step svg {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .about__step-arrow {
+    color: var(--accent);
+    font-weight: 600;
+    line-height: 1;
+    transform: rotate(90deg);
+  }
+
+  @media (min-width: 760px) {
+    .about__steps {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      gap: 0.6rem;
+    }
+
+    .about__step-arrow {
+      transform: none;
+    }
+  }
+
+  /* inline-block (no flex): con texto a dos líneas, la flecha sigue a la
+     última palabra en vez de flotar al borde derecho. */
+  .about__workflow {
+    display: inline-block;
+    margin-top: 2rem;
+    color: var(--accent-2);
+    font-weight: 600;
+    font-size: var(--step--1);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s var(--ease);
+  }
+
+  .about__workflow svg {
+    display: inline-block;
+    vertical-align: -2px;
+    margin-left: 0.3rem;
+  }
+
+  .about__workflow:hover {
+    border-color: var(--accent-2);
+  }
+</style>

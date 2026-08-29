@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://uruena2603.github.io/sitemap-index.xml

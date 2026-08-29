@@ -1,0 +1,164 @@
+---
+// Sin formulario a propósito: exigiría un servicio de terceros con clave en el
+// cliente. Enlaces directos y CV descargable: cero dependencias que mantener.
+// Los iconos son React SSR (sin directiva client): solo llegan como SVG.
+import type { Dictionary } from "../i18n/es";
+import { SiGithub } from "react-icons/si";
+import { FaLinkedin, FaEnvelope } from "react-icons/fa6";
+
+interface Props {
+  t: Dictionary["contact"];
+}
+
+const { t } = Astro.props;
+
+const links = [
+  {
+    label: "alejourus2003@gmail.com",
+    href: "mailto:alejourus2003@gmail.com",
+    external: false,
+    icon: FaEnvelope,
+  },
+  {
+    label: "github.com/Uruena2603",
+    href: "https://github.com/Uruena2603",
+    external: true,
+    icon: SiGithub,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/juan-alejandro-urueña-serna",
+    external: true,
+    icon: FaLinkedin,
+  },
+];
+---
+
+<section class="section section--bordered contact" id="contact">
+  <div class="container contact__inner">
+    <div>
+      <p class="eyebrow">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><rect x="2" y="4" width="20" height="16" rx="2"></rect><path
+            d="m2 7 10 6 10-6"></path></svg
+        >
+        {t.eyebrow}
+      </p>
+      <h2 class="section-title">{t.title}</h2>
+      <p class="section-lead">{t.lead}</p>
+
+      <ul class="contact__links">
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                <link.icon aria-hidden="true" />
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="contact__cv">
+      <p class="card__meta">{t.cv.meta}</p>
+      <h3 class="contact__cv-title">{t.cv.title}</h3>
+      {t.cv.body && <p class="card__body">{t.cv.body}</p>}
+      <div class="contact__cv-actions">
+        <a class="btn btn--primary" href={t.cv.primary.href} download>
+          {t.cv.primary.label}
+        </a>
+        <a class="btn btn--ghost" href={t.cv.secondary.href} download>
+          {t.cv.secondary.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact__inner {
+    display: grid;
+    gap: 3rem;
+    /* La tarjeta del CV, centrada verticalmente respecto a la columna
+       izquierda: sin vacío visual debajo. */
+    align-items: center;
+  }
+
+  .contact__links {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    justify-items: start;
+  }
+
+  .contact__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text-muted);
+    transition: color 0.25s var(--ease);
+  }
+
+  .contact__links a :global(svg) {
+    width: 1.1em;
+    height: 1.1em;
+    color: var(--text-dim);
+    transition: color 0.25s var(--ease);
+  }
+
+  .contact__links a:hover :global(svg) {
+    color: var(--accent-2);
+  }
+
+  .contact__links a:hover {
+    color: var(--accent-2);
+  }
+
+  /* Tarjeta centrada y con aire parejo: es una invitación, no un panel. */
+  .contact__cv {
+    display: grid;
+    gap: 0.9rem;
+    justify-items: center;
+    text-align: center;
+    padding: clamp(1.75rem, 1.3rem + 1.8vw, 2.75rem);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+  }
+
+  .contact__cv-title {
+    font-size: var(--step-2);
+  }
+
+  .contact__cv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-top: 0.6rem;
+  }
+
+  @media (min-width: 880px) {
+    .contact__inner {
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+  }
+</style>

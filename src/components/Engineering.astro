@@ -1,0 +1,74 @@
+---
+// Sin enlaces: el despliegue del proyecto de grado está caído y los derechos
+// patrimoniales son de la universidad. HandOff Chat está pausado.
+// Enlazar cualquiera de los dos sería peor que describirlos bien.
+import type { Dictionary } from "../i18n/es";
+
+interface Props {
+  t: Dictionary["engineering"];
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section section--bordered" id="engineering">
+  <div class="container">
+    <p class="eyebrow">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        ><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect
+          x="9"
+          y="9"
+          width="6"
+          height="6"></rect><path
+          d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"
+        ></path></svg
+      >
+      {t.eyebrow}
+    </p>
+    <h2 class="section-title">{t.title}</h2>
+
+    <div class="grid eng__list">
+      {
+        t.items.map((item) => (
+          <article class="card">
+            <p class="card__meta">{item.kind}</p>
+            <h3 class="eng__title">{item.title}</h3>
+            <p class="card__body">{item.body}</p>
+            <ul class="tags">
+              {item.tags.map((tag) => (
+                <li class="tag">{tag}</li>
+              ))}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .eng__list {
+    margin-top: 3rem;
+  }
+
+  .eng__title {
+    font-size: var(--step-1);
+    margin-top: 0.5rem;
+    max-width: 46ch;
+  }
+
+  @media (min-width: 860px) {
+    .eng__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

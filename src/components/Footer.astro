@@ -1,0 +1,108 @@
+---
+import type { Dictionary } from "../i18n/es";
+import { SiGithub } from "react-icons/si";
+import { FaLinkedin, FaEnvelope } from "react-icons/fa6";
+
+interface Props {
+  t: Dictionary["footer"];
+}
+
+const { t } = Astro.props;
+const year = new Date().getFullYear();
+
+// El orden de t.links es GitHub, LinkedIn, correo (ver diccionarios).
+const icons = [SiGithub, FaLinkedin, FaEnvelope];
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <p class="footer__name">Juan Alejandro Urueña Serna</p>
+    <ul class="footer__links">
+      {
+        t.links.map((item, i) => {
+          const Icon = icons[i];
+          return (
+            <li>
+              <a
+                href={item.href}
+                target={item.href.startsWith("mailto:") ? undefined : "_blank"}
+                rel="noopener noreferrer"
+              >
+                <Icon aria-hidden="true" />
+                {item.label}
+              </a>
+            </li>
+          );
+        })
+      }
+    </ul>
+    <p class="footer__meta">{t.meta} · © {year}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: 2.5rem;
+  }
+
+  /* Móvil: apilado y centrado; con más ancho, en fila. */
+  .footer__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  @media (min-width: 720px) {
+    .footer__inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      text-align: left;
+      gap: 1rem 2rem;
+    }
+  }
+
+  .footer__name {
+    font-weight: 600;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--text-muted);
+    font-size: var(--step--1);
+    transition: color 0.25s var(--ease);
+  }
+
+  .footer__links a :global(svg) {
+    width: 1.05em;
+    height: 1.05em;
+  }
+
+  .footer__links a:hover {
+    color: var(--accent-2);
+  }
+
+  .footer__meta {
+    color: var(--text-dim);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 720px) {
+    .footer__meta {
+      margin-left: auto;
+    }
+  }
+</style>

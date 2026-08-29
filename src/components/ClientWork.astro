@@ -1,0 +1,47 @@
+---
+// Solo trabajo real y verificable, ordenado de mejor a menor: capturas de los
+// sitios vivos enlazadas al sitio real, con etiqueta honesta (cliente,
+// producto propio, afiliado, demo, participación).
+import type { Dictionary } from "../i18n/es";
+import WorkCarousel from "./WorkCarousel.astro";
+
+interface Props {
+  t: Dictionary["clientWork"];
+}
+
+const { t } = Astro.props;
+---
+
+<section class="section section--bordered" id="work">
+  <div class="container">
+    <p class="eyebrow">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        ><path
+          d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2m-9 0h12a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"
+        ></path></svg
+      >
+      {t.eyebrow}
+    </p>
+    <h2 class="section-title">{t.title}</h2>
+    <p class="section-lead">{t.lead}</p>
+
+    <div class="work__carousel">
+      <WorkCarousel t={t} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .work__carousel {
+    margin-top: 3rem;
+  }
+</style>

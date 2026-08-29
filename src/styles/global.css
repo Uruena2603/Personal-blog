@@ -1,0 +1,446 @@
+/* ==========================================================================
+   Sistema de diseño — Juan Alejandro Urueña Serna
+   Mobile first. Oscuro, sobrio, cinematográfico.
+   Reemplaza a css/styles.css (875 líneas) y a Bootstrap + Font Awesome + AOS.
+   ========================================================================== */
+
+/* --- Tokens ------------------------------------------------------------- */
+
+:root {
+  /* Superficies: casi negro con una nota fría, no gris puro. */
+  --bg: #07080c;
+  --bg-raised: #0d0f16;
+  --surface: #12141d;
+  --surface-hover: #171a25;
+
+  /* Texto */
+  --text: #e9ecf5;
+  --text-muted: #9aa2b8;
+  /* 5.5:1 sobre --surface. El valor anterior (#6b7389) daba 3.88 y fallaba
+     el contraste AA de WCAG en .card__meta y .stack__label. */
+  --text-dim: #858da3;
+
+  /* Acento: violeta → cian. Un solo par en todo el sitio. */
+  --accent: #a78bfa;
+  --accent-2: #22d3ee;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+
+  /* Líneas: siempre capilares, nunca sólidas. */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  /* Escala fluida. min → max entre 360px y 1280px de viewport. */
+  --step--1: clamp(0.83rem, 0.79rem + 0.18vw, 0.94rem);
+  --step-0: clamp(1rem, 0.95rem + 0.23vw, 1.13rem);
+  --step-1: clamp(1.2rem, 1.11rem + 0.4vw, 1.5rem);
+  --step-2: clamp(1.44rem, 1.29rem + 0.66vw, 2rem);
+  --step-3: clamp(1.73rem, 1.49rem + 1.05vw, 2.66rem);
+  --step-4: clamp(2.07rem, 1.71rem + 1.62vw, 3.55rem);
+  --step-5: clamp(2.49rem, 1.93rem + 2.45vw, 4.73rem);
+
+  /* Ritmo vertical */
+  --space-section: clamp(4.5rem, 3rem + 7vw, 9rem);
+  --gutter: clamp(1.25rem, 0.9rem + 1.6vw, 2.5rem);
+  --measure: 65ch;
+
+  --radius: 14px;
+  --radius-lg: 22px;
+
+  /* Display serif con carácter para los titulares; el cuerpo sigue en la
+     pila del sistema (un solo woff2 en el presupuesto). */
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
+}
+
+/* --- Reset -------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Compensa la barra de navegación fija al saltar a un ancla. */
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+/* Con atributos width/height (reservan espacio para el CLS), un ancho por
+   CSS exige height:auto o la imagen conserva la altura del atributo. */
+img {
+  height: auto;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.1;
+  font-weight: 650;
+  letter-spacing: -0.022em;
+  text-wrap: balance;
+}
+
+/* Los titulares de peso llevan la serif display; las tarjetas (h3, h4)
+   siguen en sans para que la jerarquía se lea de un vistazo. */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+  font-weight: 560;
+  letter-spacing: -0.014em;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --- Accesibilidad ------------------------------------------------------ */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -120%);
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: #0b0b12;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius) var(--radius);
+  transition: transform 0.2s var(--ease);
+}
+
+.skip-link:focus {
+  transform: translate(-50%, 0);
+}
+
+/* Presupuesto de rendimiento: todo efecto se apaga aquí. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --- Composición -------------------------------------------------------- */
+
+.container {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--space-section);
+  position: relative;
+}
+
+.section--bordered {
+  border-top: 1px solid var(--line);
+}
+
+.stack > * + * {
+  margin-top: var(--flow, 1rem);
+}
+
+/* --- Tipografía de sección ---------------------------------------------- */
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
+  font-size: var(--step--1);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 1.75rem;
+  height: 1px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.section-title {
+  font-size: var(--step-3);
+  max-width: 20ch;
+}
+
+.section-lead {
+  color: var(--text-muted);
+  max-width: var(--measure);
+  margin-top: 1rem;
+  font-size: var(--step-1);
+}
+
+/* Revelado al hacer scroll sin JavaScript: sustituye al ScrollFloat de
+   ReactBits, que habría costado una isla React por título. Mejora
+   progresiva: sin soporte de animation-timeline no pasa nada. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-title,
+    .section-lead {
+      animation: section-reveal linear both;
+      animation-timeline: view();
+      /* Rango corto: el revelado termina apenas el elemento asoma. Un rango
+         largo ata la animación al scroll y se siente "pegada". */
+      animation-range: entry 0% entry 28%;
+    }
+  }
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  /* Con line-height apretado la caja no cubre los descendentes (la "y"
+     salía cortada): se extiende la caja de pintura sin mover el layout. */
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+
+/* Cuando GSAP SplitText parte el titular, cada palabra queda envuelta en un
+   elemento transformado y el clip del padre deja de pintar sus hijos: el
+   gradiente debe aplicarse a cada palabra partida. */
+.gradient-text .split-word {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+
+/* --- Botones ------------------------------------------------------------ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  font-size: var(--step-0);
+  line-height: 1;
+  transition: transform 0.25s var(--ease), background-color 0.25s var(--ease),
+    border-color 0.25s var(--ease), color 0.25s var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn--primary {
+  background: linear-gradient(100deg, var(--accent), var(--accent-2));
+  color: #08080f;
+}
+
+.btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.btn--ghost:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* --- Tarjetas ----------------------------------------------------------- */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  transition: border-color 0.3s var(--ease), background-color 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+
+.card:hover {
+  border-color: var(--line-strong);
+  background: var(--surface-hover);
+  transform: translateY(-4px);
+}
+
+.card__meta {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--step--1);
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+.card__title {
+  font-size: var(--step-2);
+  margin-top: 0.4rem;
+}
+
+.card__body {
+  color: var(--text-muted);
+  margin-top: 0.85rem;
+}
+
+.card__link {
+  margin-top: auto;
+  padding-top: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--accent-2);
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+
+.card__link:hover {
+  gap: 0.75rem;
+}
+
+.card__link svg {
+  transition: transform 0.25s var(--ease);
+}
+
+.card__link:hover svg {
+  transform: translateX(3px);
+}
+
+/* --- Etiquetas de tecnología -------------------------------------------- */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1.25rem;
+  list-style: none;
+  padding: 0;
+}
+
+.tag {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: var(--step--1);
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.02);
+  white-space: nowrap;
+}
+
+/* Píldora con logo SVG (marquesina del stack). */
+.stack-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-block: 0.45rem;
+}
+
+.stack-pill svg {
+  width: 1.05em;
+  height: 1.05em;
+  color: var(--text);
+}
+
+/* --- Rejillas ----------------------------------------------------------- */
+
+.grid {
+  display: grid;
+  gap: clamp(1rem, 0.7rem + 1.2vw, 1.75rem);
+}
+
+@media (min-width: 720px) {
+  .grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+

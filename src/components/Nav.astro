@@ -1,0 +1,250 @@
+---
+import type { Dictionary } from "../i18n/es";
+
+interface Props {
+  t: Dictionary["nav"];
+}
+
+const { t } = Astro.props;
+---
+
+<header class="nav">
+  <nav class="nav__inner" aria-label={t.ariaLabel}>
+    <a class="nav__brand" href="#top">
+      JU<span aria-hidden="true">.</span>
+      <span class="visually-hidden">Juan Alejandro Urueña Serna</span>
+    </a>
+
+    <ul class="nav__list">
+      {
+        t.links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+      <li>
+        <a
+          class="nav__lang"
+          href={t.langSwitch.href}
+          aria-label={t.langSwitch.ariaLabel}
+        >
+          {t.langSwitch.label}
+        </a>
+      </li>
+    </ul>
+
+    <!-- Menú móvil con la API popover del navegador: sin framework y con
+         cierre por toque fuera o Escape incluido de fábrica. -->
+    <button
+      class="nav__burger"
+      popovertarget="mobile-menu"
+      aria-label={t.menuLabel}
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        aria-hidden="true"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16" />
+      </svg>
+    </button>
+
+    <div id="mobile-menu" class="nav__menu" popover>
+      <div class="nav__menu-head">
+        <span class="nav__brand" aria-hidden="true">JU<span>.</span></span>
+        <button
+          class="nav__burger"
+          popovertarget="mobile-menu"
+          popovertargetaction="hide"
+          aria-label={t.closeLabel}
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
+      </div>
+      <ul class="nav__menu-list">
+        {
+          t.links.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+        <li>
+          <a class="nav__menu-lang" href={t.langSwitch.href}>
+            {t.langSwitch.label}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Un enlace interno no cierra el popover por sí solo: se cierra aquí.
+  const menu = document.getElementById("mobile-menu");
+  menu?.addEventListener("click", (event) => {
+    if ((event.target as HTMLElement).closest("a")) {
+      (menu as HTMLElement & { hidePopover(): void }).hidePopover();
+    }
+  });
+</script>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 0.75rem var(--gutter);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav__inner {
+    max-width: 1180px;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .nav__brand {
+    font-weight: 700;
+    font-size: var(--step-1);
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+  }
+
+  .nav__brand span {
+    color: var(--accent);
+  }
+
+  /* Escritorio: píldoras. Móvil: hamburguesa. */
+  .nav__list {
+    display: none;
+  }
+
+  .nav__burger {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: none;
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    color: var(--text);
+  }
+
+  @media (min-width: 768px) {
+    .nav__list {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .nav__burger {
+      display: none;
+    }
+  }
+
+  .nav__list a {
+    display: block;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    font-size: var(--step--1);
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.25s var(--ease), background-color 0.25s var(--ease);
+  }
+
+  .nav__list a:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .nav__lang {
+    border: 1px solid var(--line-strong);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    letter-spacing: 0.08em;
+  }
+
+  .nav__lang:hover {
+    border-color: var(--accent);
+  }
+
+  /* Panel del menú móvil */
+  .nav__menu {
+    position: fixed;
+    inset: 0 0 auto 0;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0.75rem var(--gutter) 2rem;
+    background: var(--bg-raised);
+    color: var(--text);
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+  }
+
+  .nav__menu::backdrop {
+    background: rgba(7, 8, 12, 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  .nav__menu-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav__menu-list {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .nav__menu-list a {
+    display: block;
+    padding: 0.85rem 0.5rem;
+    font-size: var(--step-1);
+    font-weight: 600;
+    border-bottom: 1px solid var(--line);
+    transition: color 0.2s var(--ease);
+  }
+
+  .nav__menu-list a:hover {
+    color: var(--accent-2);
+  }
+
+  .nav__menu-lang {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    color: var(--text-muted);
+  }
+</style>
