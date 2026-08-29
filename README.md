@@ -2,11 +2,11 @@
 
 Personal site of Juan Alejandro Urueña Serna, full-stack developer.
 
-**Live:** [uruena2603.github.io/Personal-blog](https://uruena2603.github.io/Personal-blog/)
+**Live:** [juan-alejandro-uruena.pages.dev](https://juan-alejandro-uruena.pages.dev/) · [Español](https://juan-alejandro-uruena.pages.dev/es/)
 
 ## Status
 
-The published version is vanilla HTML, CSS, and JavaScript. A migration to Astro is in progress on the `feat/landing-astro` branch: pre-rendered HTML for SEO and Open Graph, with JavaScript only where a component needs it, and deployment moving to Cloudflare.
+Bilingual static site built with Astro and React islands: pre-rendered HTML for SEO and Open Graph, with JavaScript only where a component needs it. Deployed on Cloudflare Pages; every push to `main` builds and ships automatically.
 
 ## How it is built
 
