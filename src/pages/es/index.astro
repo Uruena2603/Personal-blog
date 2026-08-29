@@ -1,0 +1,27 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Hero from "../../components/Hero.astro";
+import About from "../../components/About.astro";
+import ClientWork from "../../components/ClientWork.astro";
+import CaseStudy from "../../components/CaseStudy.astro";
+import Engineering from "../../components/Engineering.astro";
+import Knowledge from "../../components/Knowledge.astro";
+import Contact from "../../components/Contact.astro";
+import Footer from "../../components/Footer.astro";
+import { es } from "../../i18n/es";
+---
+
+<Base t={es.meta}>
+  <Nav t={es.nav} />
+  <main id="content">
+    <Hero t={es.hero} />
+    <About t={es.about} />
+    <ClientWork t={es.clientWork} />
+    <CaseStudy t={es.caseStudy} />
+    <Engineering t={es.engineering} />
+    <Knowledge t={es.knowledge} />
+    <Contact t={es.contact} />
+  </main>
+  <Footer t={es.footer} />
+</Base>

@@ -1,21 +1,32 @@
 ---
 import "../styles/global.css";
+// La @font-face se declara abajo con font-display: optional en vez de usar
+// el CSS de fontsource (swap): el swap tardío partía el titular en otra
+// línea y desplazaba todo el hero (CLS medido: 0.17). Con optional +
+// preload, o Fraunces llega al primer pintado o no entra en esta visita.
+import frauncesWoff2 from "@fontsource-variable/fraunces/files/fraunces-latin-wght-normal.woff2?url";
+
+const frauncesFace = `@font-face { font-family: "Fraunces Variable"; font-style: normal; font-display: optional; font-weight: 100 900; src: url(${frauncesWoff2}) format("woff2-variations"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }`;
+import type { Dictionary } from "../i18n/es";
 
 interface Props {
-  title: string;
-  description: string;
+  t: Dictionary["meta"];
 }
 
-const { title, description } = Astro.props;
+const { t } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = new URL("/og.png", Astro.site).href;
+const ogImage = new URL("/og.jpg", Astro.site).href;
+const alternates = {
+  en: new URL("/", Astro.site).href,
+  es: new URL("/es/", Astro.site).href,
+};
 
 // Datos estructurados: sin esto Google no sabe que la página describe a una persona.
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Juan Alejandro Urueña Serna",
-  jobTitle: "Ingeniero de Sistemas y Telecomunicaciones",
+  jobTitle: t.jobTitle,
   email: "mailto:alejourus2003@gmail.com",
   url: canonical,
   address: {
@@ -40,35 +51,48 @@ const personSchema = {
   ],
   sameAs: [
     "https://github.com/Uruena2603",
-    "https://www.linkedin.com/in/juan-alejandro-urueña-serna-1a15122a2",
+    "https://www.linkedin.com/in/juan-alejandro-urueña-serna",
   ],
 };
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang={t.lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
-    <meta name="description" content={description} />
+    <title>{t.title}</title>
+    <meta name="description" content={t.description} />
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={alternates.en} />
+    <link rel="alternate" hreflang="es" href={alternates.es} />
+    <link rel="alternate" hreflang="x-default" href={alternates.en} />
     <meta name="author" content="Juan Alejandro Urueña Serna" />
     <meta name="theme-color" content="#07080c" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="preload"
+      href={frauncesWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <style is:inline set:html={frauncesFace}></style>
 
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_CO" />
+    <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:site_name" content="Juan Alejandro Urueña Serna" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
+    <meta name="twitter:title" content={t.title} />
+    <meta name="twitter:description" content={t.description} />
     <meta name="twitter:image" content={ogImage} />
 
     <script
@@ -78,7 +102,7 @@ const personSchema = {
     />
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <a class="skip-link" href="#content">{t.skipLink}</a>
     <slot />
   </body>
 </html>

@@ -46,6 +46,10 @@
   --radius: 14px;
   --radius-lg: 22px;
 
+  /* Display serif con carácter para los titulares; el cuerpo sigue en la
+     pila del sistema (un solo woff2 en el presupuesto). */
+  --font-display: "Fraunces Variable", Georgia, "Times New Roman", serif;
+
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   color-scheme: dark;
@@ -90,6 +94,12 @@ canvas {
   max-width: 100%;
 }
 
+/* Con atributos width/height (reservan espacio para el CLS), un ancho por
+   CSS exige height:auto o la imagen conserva la altura del atributo. */
+img {
+  height: auto;
+}
+
 input,
 button,
 textarea,
@@ -110,6 +120,16 @@ h4 {
   font-weight: 650;
   letter-spacing: -0.022em;
   text-wrap: balance;
+}
+
+/* Los titulares de peso llevan la serif display; las tarjetas (h3, h4)
+   siguen en sans para que la jerarquía se lea de un vistazo. */
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144;
+  font-weight: 560;
+  letter-spacing: -0.014em;
 }
 
 p {
@@ -230,11 +250,54 @@ a {
   font-size: var(--step-1);
 }
 
+/* Revelado al hacer scroll sin JavaScript: sustituye al ScrollFloat de
+   ReactBits, que habría costado una isla React por título. Mejora
+   progresiva: sin soporte de animation-timeline no pasa nada. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .section-title,
+    .section-lead {
+      animation: section-reveal linear both;
+      animation-timeline: view();
+      /* Rango corto: el revelado termina apenas el elemento asoma. Un rango
+         largo ata la animación al scroll y se siente "pegada". */
+      animation-range: entry 0% entry 28%;
+    }
+  }
+}
+
+@keyframes section-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .gradient-text {
   background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* Con line-height apretado la caja no cubre los descendentes (la "y"
+     salía cortada): se extiende la caja de pintura sin mover el layout. */
+  padding-block: 0.14em;
+  margin-block: -0.14em;
+}
+
+/* Cuando GSAP SplitText parte el titular, cada palabra queda envuelta en un
+   elemento transformado y el clip del padre deja de pintar sus hijos: el
+   gradiente debe aplicarse a cada palabra partida. */
+.gradient-text .split-word {
+  background: linear-gradient(100deg, var(--accent) 10%, var(--accent-2) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-block: 0.14em;
+  margin-block: -0.14em;
 }
 
 /* --- Botones ------------------------------------------------------------ */
@@ -354,6 +417,20 @@ a {
   white-space: nowrap;
 }
 
+/* Píldora con logo SVG (marquesina del stack). */
+.stack-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding-block: 0.45rem;
+}
+
+.stack-pill svg {
+  width: 1.05em;
+  height: 1.05em;
+  color: var(--text);
+}
+
 /* --- Rejillas ----------------------------------------------------------- */
 
 .grid {
@@ -367,14 +444,3 @@ a {
   }
 }
 
-@media (min-width: 620px) {
-  .grid--4 {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 980px) {
-  .grid--4 {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}

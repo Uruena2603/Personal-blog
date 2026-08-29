@@ -1,46 +1,84 @@
 ---
 // El <h1> es texto plano y pre-renderizado: es el elemento LCP.
 // Ningún canvas ni imagen puede ocupar ese puesto (presupuesto de CLAUDE.md).
+import type { Dictionary } from "../i18n/es";
+import Aurora from "./react/Aurora";
+import SplitText from "./react/SplitText";
+
+interface Props {
+  t: Dictionary["hero"];
+}
+
+const { t } = Astro.props;
 ---
 
-<section class="hero" id="inicio">
+<section class="hero" id="top">
   <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__aurora" aria-hidden="true">
+    <Aurora client:idle amplitude={0.9} blend={0.55} speed={0.6} />
+  </div>
   <div class="container hero__inner">
-    <h1 class="hero__heading">
-      <span class="hero__name">Juan Alejandro Urueña Serna</span>
-      <!-- El texto y el <span> van en la misma línea a propósito: con un salto
-           entre ambos el compilador colapsa el espacio y sale «conviertentráfico». -->
-      <span class="hero__claim">
-        Construyo <span class="gradient-text">sistemas completos</span>, no piezas sueltas.
-      </span>
-    </h1>
+    <div>
+      <h1 class="hero__heading">
+        <span class="hero__greeting">
+          <img
+            class="hero__avatar"
+            src="/img/perfil/pfp.jpg"
+            alt=""
+            width="899"
+            height="1600"
+            loading="eager"
+          />
+          {t.greeting}
+        </span>
+        <span class="hero__claim"><SplitText
+            client:load
+            pre={t.claimPre}
+            highlight={t.claimHighlight}
+            post={t.claimPost}
+          /></span>
+      </h1>
 
-    <p class="hero__support">
-      Ingeniero de Sistemas y Telecomunicaciones. Del sensor al modelo y de la
-      landing al despliegue: trabajo la cadena entera, no una sola capa.
-    </p>
+      <p class="hero__support">{t.support}</p>
 
-    <div class="hero__actions">
-      <a class="btn btn--primary" href="#trabajo">Ver el trabajo</a>
-      <a class="btn btn--ghost" href="#contacto">Hablemos</a>
+      <div class="hero__actions">
+        <a class="btn btn--primary" href="#work">{t.ctaPrimary}</a>
+        <a class="btn btn--ghost" href="#contact">{t.ctaSecondary}</a>
+      </div>
     </div>
+
+    <img
+      class="hero__photo"
+      src="/img/perfil/pfp.jpg"
+      alt={t.photoAlt}
+      width="899"
+      height="1600"
+      loading="eager"
+    />
   </div>
 </section>
 
 <style>
+  /* Móvil: altura según contenido (100svh dejaba vacíos arriba y abajo).
+     Escritorio: pantalla completa. */
   .hero {
     position: relative;
-    min-height: 100svh;
     display: flex;
     align-items: center;
-    padding-block: 7rem 4rem;
+    padding-block: 6rem 3rem;
     overflow: hidden;
     isolation: isolate;
   }
 
-  /* Resplandor estático en CSS. En la fase 2 el fondo Aurora (WebGL) monta
-     encima con client:idle, así que este queda como base y como respaldo
-     para móvil y prefers-reduced-motion. */
+  @media (min-width: 880px) {
+    .hero {
+      min-height: 100svh;
+      padding-block: 7rem 4rem;
+    }
+  }
+
+  /* Resplandor estático en CSS: base y respaldo del fondo WebGL (isla Aurora),
+     que monta encima con client:idle y no entra en móvil ni reduced-motion. */
   .hero__glow {
     position: absolute;
     inset: 0;
@@ -58,8 +96,57 @@
       );
   }
 
+  /* Capa WebGL sobre el resplandor CSS. Contenida al 55 % superior para que
+     el efecto enmarque el titular sin volverse el protagonista. */
+  .hero__aurora {
+    position: absolute;
+    inset: 0 0 45% 0;
+    z-index: -1;
+    opacity: 0.55;
+  }
+
   .hero__inner {
     max-width: 1180px;
+    display: grid;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  /* Móvil: avatar pequeño integrado al saludo. Escritorio: retrato 3:4. */
+  .hero__avatar {
+    width: 64px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 50% 18%;
+    border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    flex-shrink: 0;
+  }
+
+  .hero__photo {
+    display: none;
+  }
+
+  @media (min-width: 880px) {
+    .hero__inner {
+      grid-template-columns: 1fr auto;
+      gap: 3.5rem;
+    }
+
+    .hero__avatar {
+      display: none;
+    }
+
+    .hero__photo {
+      display: block;
+      width: min(300px, 28vw);
+      aspect-ratio: 3 / 4;
+      border-radius: var(--radius-lg);
+      object-fit: cover;
+      object-position: 50% 18%;
+      border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+      box-shadow: 0 0 44px rgba(167, 139, 250, 0.22);
+    }
   }
 
   .hero__heading {
@@ -69,14 +156,15 @@
     max-width: 24ch;
   }
 
-  .hero__name {
-    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-      monospace;
-    font-size: var(--step--1);
+  .hero__greeting {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: var(--step-0);
     font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-dim);
+    letter-spacing: 0;
+    color: var(--text-muted);
   }
 
   .hero__claim {

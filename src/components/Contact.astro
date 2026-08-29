@@ -1,130 +1,102 @@
 ---
-// EmailJS se carga en el primer foco del formulario, no en la carga de la
-// página: así no añade un origen externo al camino crítico.
-const EMAILJS = {
-  publicKey: "BtFyUAKNnzdh9lMlD",
-  serviceId: "service_omic0ms",
-  templateId: "template_9ja0w7f",
-};
+// Sin formulario a propósito: exigiría un servicio de terceros con clave en el
+// cliente. Enlaces directos y CV descargable: cero dependencias que mantener.
+// Los iconos son React SSR (sin directiva client): solo llegan como SVG.
+import type { Dictionary } from "../i18n/es";
+import { SiGithub } from "react-icons/si";
+import { FaLinkedin, FaEnvelope } from "react-icons/fa6";
+
+interface Props {
+  t: Dictionary["contact"];
+}
+
+const { t } = Astro.props;
+
+const links = [
+  {
+    label: "alejourus2003@gmail.com",
+    href: "mailto:alejourus2003@gmail.com",
+    external: false,
+    icon: FaEnvelope,
+  },
+  {
+    label: "github.com/Uruena2603",
+    href: "https://github.com/Uruena2603",
+    external: true,
+    icon: SiGithub,
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/juan-alejandro-urueña-serna",
+    external: true,
+    icon: FaLinkedin,
+  },
+];
 ---
 
-<section class="section section--bordered contact" id="contacto">
+<section class="section section--bordered contact" id="contact">
   <div class="container contact__inner">
     <div>
-      <p class="eyebrow">Contacto</p>
-      <h2 class="section-title">¿Tienes algo que construir o conectar?</h2>
-      <p class="section-lead">
-        Escríbeme y te respondo. Si prefieres mirar antes, todo mi código
-        público está en GitHub.
+      <p class="eyebrow">
+        <svg
+          width="15"
+          height="15"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><rect x="2" y="4" width="20" height="16" rx="2"></rect><path
+            d="m2 7 10 6 10-6"></path></svg
+        >
+        {t.eyebrow}
       </p>
+      <h2 class="section-title">{t.title}</h2>
+      <p class="section-lead">{t.lead}</p>
 
       <ul class="contact__links">
-        <li>
-          <a href="mailto:alejourus2003@gmail.com">alejourus2003@gmail.com</a>
-        </li>
-        <li>
-          <a
-            href="https://github.com/Uruena2603"
-            target="_blank"
-            rel="noopener noreferrer">github.com/Uruena2603</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://www.linkedin.com/in/juan-alejandro-urueña-serna-1a15122a2"
-            target="_blank"
-            rel="noopener noreferrer">LinkedIn</a
-          >
-        </li>
+        {
+          links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+              >
+                <link.icon aria-hidden="true" />
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </div>
 
-    <form class="contact__form" id="contact-form" data-emailjs={JSON.stringify(EMAILJS)}>
-      <div class="field">
-        <label for="nombre">Nombre</label>
-        <input type="text" id="nombre" name="nombre" required autocomplete="name" />
+    <div class="contact__cv">
+      <p class="card__meta">{t.cv.meta}</p>
+      <h3 class="contact__cv-title">{t.cv.title}</h3>
+      {t.cv.body && <p class="card__body">{t.cv.body}</p>}
+      <div class="contact__cv-actions">
+        <a class="btn btn--primary" href={t.cv.primary.href} download>
+          {t.cv.primary.label}
+        </a>
+        <a class="btn btn--ghost" href={t.cv.secondary.href} download>
+          {t.cv.secondary.label}
+        </a>
       </div>
-      <div class="field">
-        <label for="email">Correo</label>
-        <input type="email" id="email" name="email" required autocomplete="email" />
-      </div>
-      <div class="field">
-        <label for="mensaje">Mensaje</label>
-        <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn--primary contact__submit">
-        Enviar mensaje
-      </button>
-      <p class="contact__status" id="form-status" role="status" aria-live="polite"></p>
-    </form>
+    </div>
   </div>
 </section>
-
-<script>
-  const form = document.getElementById("contact-form") as HTMLFormElement | null;
-
-  if (form) {
-    const config = JSON.parse(form.dataset.emailjs ?? "{}");
-    const status = document.getElementById("form-status") as HTMLElement;
-    const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
-    let loader: Promise<void> | null = null;
-
-    // Carga diferida: el SDK solo entra cuando el visitante toca el formulario.
-    function loadEmailJs(): Promise<void> {
-      if (loader) return loader;
-      loader = new Promise((resolve, reject) => {
-        const script = document.createElement("script");
-        script.src =
-          "https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js";
-        script.onload = () => {
-          (window as any).emailjs.init(config.publicKey);
-          resolve();
-        };
-        script.onerror = () => reject(new Error("No se pudo cargar EmailJS"));
-        document.head.appendChild(script);
-      });
-      return loader;
-    }
-
-    form.addEventListener("focusin", () => void loadEmailJs().catch(() => {}), {
-      once: true,
-    });
-
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      submit.disabled = true;
-      const original = submit.textContent;
-      submit.textContent = "Enviando…";
-      status.textContent = "";
-      status.className = "contact__status";
-
-      try {
-        await loadEmailJs();
-        const data = new FormData(form);
-        await (window as any).emailjs.send(config.serviceId, config.templateId, {
-          nombre: data.get("nombre"),
-          email: data.get("email"),
-          mensaje: data.get("mensaje"),
-        });
-        form.reset();
-        status.textContent = "Mensaje enviado. Te respondo pronto.";
-        status.classList.add("is-ok");
-      } catch {
-        status.textContent =
-          "No se pudo enviar. Escríbeme directo a alejourus2003@gmail.com";
-        status.classList.add("is-error");
-      } finally {
-        submit.disabled = false;
-        submit.textContent = original;
-      }
-    });
-  }
-</script>
 
 <style>
   .contact__inner {
     display: grid;
     gap: 3rem;
+    /* La tarjeta del CV, centrada verticalmente respecto a la columna
+       izquierda: sin vacío visual debajo. */
+    align-items: center;
   }
 
   .contact__links {
@@ -132,75 +104,55 @@ const EMAILJS = {
     padding: 0;
     list-style: none;
     display: grid;
-    gap: 0.6rem;
+    gap: 0.75rem;
+    justify-items: start;
   }
 
   .contact__links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     color: var(--text-muted);
-    border-bottom: 1px solid var(--line-strong);
-    padding-bottom: 2px;
-    transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+    transition: color 0.25s var(--ease);
+  }
+
+  .contact__links a :global(svg) {
+    width: 1.1em;
+    height: 1.1em;
+    color: var(--text-dim);
+    transition: color 0.25s var(--ease);
+  }
+
+  .contact__links a:hover :global(svg) {
+    color: var(--accent-2);
   }
 
   .contact__links a:hover {
     color: var(--accent-2);
-    border-color: var(--accent-2);
   }
 
-  .contact__form {
+  /* Tarjeta centrada y con aire parejo: es una invitación, no un panel. */
+  .contact__cv {
     display: grid;
-    gap: 1.1rem;
-    align-content: start;
-    padding: clamp(1.4rem, 1.1rem + 1.2vw, 2rem);
+    gap: 0.9rem;
+    justify-items: center;
+    text-align: center;
+    padding: clamp(1.75rem, 1.3rem + 1.8vw, 2.75rem);
     background: var(--surface);
     border: 1px solid var(--line);
     border-radius: var(--radius-lg);
   }
 
-  .field {
-    display: grid;
-    gap: 0.45rem;
+  .contact__cv-title {
+    font-size: var(--step-2);
   }
 
-  .field label {
-    font-size: var(--step--1);
-    color: var(--text-muted);
-  }
-
-  .field input,
-  .field textarea {
-    width: 100%;
-    padding: 0.75rem 0.9rem;
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    color: var(--text);
-    transition: border-color 0.25s var(--ease);
-    resize: vertical;
-  }
-
-  .field input:focus,
-  .field textarea:focus {
-    border-color: var(--accent);
-    outline: none;
-  }
-
-  .contact__submit {
-    justify-self: start;
-    margin-top: 0.35rem;
-  }
-
-  .contact__status {
-    font-size: var(--step--1);
-    min-height: 1.2em;
-  }
-
-  .contact__status.is-ok {
-    color: #6ee7b7;
-  }
-
-  .contact__status.is-error {
-    color: #fca5a5;
+  .contact__cv-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-top: 0.6rem;
   }
 
   @media (min-width: 880px) {

@@ -1,42 +1,44 @@
 ---
 // La sección con más peso del sitio: es la única prueba con números.
-// En la fase 3 recibe el Particle Reveal de CanvasUI (client:visible, escritorio).
-const steps = [
-  {
-    n: "01",
-    title: "El problema",
-    body: "Un médico con audiencia pero sin forma de capturarla. Su contenido se perdía en redes y no quedaba nada suyo al otro lado.",
-  },
-  {
-    n: "02",
-    title: "Lo que construí",
-    body: "Una landing que entrega un ebook a cambio del correo, guarda el lead y lo lleva al grupo de WhatsApp donde él vende su formación.",
-  },
-  {
-    n: "03",
-    title: "Cómo se conecta",
-    body: "El sitio es estático y se sirve desde el borde de Cloudflare: carga rápido y no hay servidor que mantener. El único punto dinámico es una Cloudflare Function que recibe el formulario y escribe en Supabase. GA4, Meta Pixel y Microsoft Clarity para ver dónde abandona la gente.",
-  },
-];
+// El fondo lleva Particles de ReactBits: CanvasUI quedó descartado porque
+// todo su catálogo exige la bandera experimental html-in-canvas de Chrome
+// (verificado 2026-08-29 contra su registry) y sin ella no muestra nada.
+import type { Dictionary } from "../i18n/es";
+import CaseParticles from "./react/CaseParticles";
 
-const results = [
-  { value: "250+", label: "registros captados" },
-  { value: "~170", label: "personas en el grupo de WhatsApp" },
-];
+interface Props {
+  t: Dictionary["caseStudy"];
+}
+
+const { t } = Astro.props;
 ---
 
-<section class="section section--bordered case" id="caso">
+<section class="section section--bordered case" id="case">
+  <div class="case__particles" aria-hidden="true">
+    <CaseParticles client:visible />
+  </div>
   <div class="container">
-    <p class="eyebrow">Caso destacado</p>
-    <h2 class="section-title">El embudo de ECMO, de principio a fin.</h2>
-    <p class="section-lead">
-      La pauta la llevó mi hermano. Todo lo que hay debajo — el sitio, la
-      captura, la base de datos y la medición — lo construí y lo conecté yo.
+    <p class="eyebrow">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"></path><path
+          d="M14 7h7v7"></path></svg
+      >
+      {t.eyebrow}
     </p>
+    <h2 class="section-title">{t.title}</h2>
+    <p class="section-lead">{t.lead}</p>
 
     <ol class="case__steps">
       {
-        steps.map((step) => (
+        t.steps.map((step) => (
           <li class="case__step">
             <span class="case__n">{step.n}</span>
             <div>
@@ -49,21 +51,23 @@ const results = [
     </ol>
 
     <div class="case__results">
-      {
-        results.map((result) => (
-          <div class="case__result">
-            <span class="case__value">{result.value}</span>
-            <span class="case__label">{result.label}</span>
-          </div>
-        ))
-      }
+      <div class="case__figures">
+        {
+          t.results.map((result) => (
+            <div class="case__result">
+              <span class="case__value">{result.value}</span>
+              <span class="case__label">{result.label}</span>
+            </div>
+          ))
+        }
+      </div>
       <a
-        class="btn btn--ghost case__cta"
+        class="btn btn--ghost"
         href="https://ecmo-lp.pages.dev"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Ver el embudo
+        {t.cta}
       </a>
     </div>
   </div>
@@ -72,6 +76,15 @@ const results = [
 <style>
   .case {
     background: var(--bg-raised);
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .case__particles {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0.5;
   }
 
   .case__steps {
@@ -113,21 +126,32 @@ const results = [
     max-width: var(--measure);
   }
 
+  /* Centrado en todos los anchos: cifras juntas y el botón debajo, sin
+     huecos intermedios. */
   .case__results {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     align-items: center;
-    gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+    text-align: center;
+    gap: 1.75rem;
     margin-top: 3rem;
-    padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+    padding: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
     border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
     border-radius: var(--radius-lg);
     background: var(--accent-soft);
   }
 
+  .case__figures {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem clamp(2.5rem, 1.5rem + 4vw, 5rem);
+  }
+
   .case__result {
     display: flex;
     flex-direction: column;
+    align-items: center;
   }
 
   .case__value {
@@ -144,7 +168,4 @@ const results = [
     margin-top: 0.3rem;
   }
 
-  .case__cta {
-    margin-left: auto;
-  }
 </style>

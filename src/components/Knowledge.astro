@@ -2,114 +2,117 @@
 // Inventario COMPLETO de la carrera, no solo del stack de 2026.
 // Va por capas de profundidad a propósito: así se muestra toda la amplitud
 // sin firmar cheques que no se puedan cobrar en una entrevista técnica.
-const tiers = [
-  {
-    label: "Lo que uso hoy",
-    note: "Trabajo con esto cada semana y lo tengo en producción.",
-    groups: [
-      {
-        name: "Web",
-        items: ["Next.js", "TypeScript", "React", "Astro", "Tailwind", "shadcn/ui"],
-      },
-      {
-        name: "Datos y backend",
-        items: ["Supabase", "PostgreSQL", "Cloudflare Functions"],
-      },
-      {
-        name: "Despliegue",
-        items: ["Cloudflare Pages", "Vercel", "Coolify", "Git"],
-      },
-      {
-        name: "Medición y automatización",
-        items: ["n8n", "GA4", "Meta Pixel", "Microsoft Clarity"],
-      },
-    ],
-  },
-  {
-    label: "Formación e investigación",
-    note: "Lo estudié en la carrera y lo apliqué en proyectos académicos y de grado.",
-    groups: [
-      {
-        name: "IA y datos",
-        items: [
-          "Python",
-          "TensorFlow",
-          "PyTorch",
-          "scikit-learn",
-          "Pandas",
-          "RNN",
-          "LSTM",
-          "CNN",
-          "TCN",
-          "Diseño de experimentos",
-        ],
-      },
-      {
-        name: "Backend y arquitectura",
-        items: [
-          "Java",
-          "Spring Boot",
-          "Microservicios",
-          "Flask",
-          "FastAPI",
-          "Node.js",
-          "C++",
-          "PHP",
-        ],
-      },
-      {
-        name: "Frontend y pruebas",
-        items: ["Angular", "JavaScript", "HTML/CSS", "Cypress"],
-      },
-      {
-        name: "Bases de datos",
-        items: ["MySQL", "SQL Server"],
-      },
-      {
-        name: "Telecomunicaciones e IoT",
-        items: ["MQTT", "Arduino", "Redes", "Web scraping"],
-      },
-    ],
-  },
-  {
-    label: "Explorando",
-    note: "Práctica personal en curso. Lo digo como lo que es: aprendizaje, no oficio.",
-    groups: [
-      {
-        name: "Seguridad",
-        items: ["Hack The Box", "OverTheWire", "nmap", "nikto"],
-      },
-    ],
-  },
-];
+import type { Dictionary } from "../i18n/es";
+import StackLoop from "./react/StackLoop";
+import TechTags from "./react/TechTags";
+
+interface Props {
+  t: Dictionary["knowledge"];
+}
+
+const { t } = Astro.props;
+
+// El primer nivel ("lo que uso hoy") se muestra como marquesina LogoLoop:
+// 17 tecnologías sin ocupar pantalla. Los niveles con matices siguen en
+// rejilla estática, que se deja leer.
+const [today, ...restTiers] = t.tiers;
+const todayItems = today.groups.flatMap((group) => group.items);
 ---
 
-<section class="section section--bordered" id="conocimientos">
+<section class="section section--bordered" id="skills">
   <div class="container">
-    <p class="eyebrow">Conocimientos</p>
-    <h2 class="section-title">Cinco años de carrera, ordenados por profundidad.</h2>
-    <p class="section-lead">
-      Está todo, pero separado con honestidad: lo que sostengo a fondo, lo que
-      estudié y apliqué, y lo que apenas estoy explorando.
+    <p class="eyebrow">
+      <svg
+        width="15"
+        height="15"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        ><path d="M12 2 2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"
+        ></path><path d="M2 12l10 5 10-5"></path></svg
+      >
+      {t.eyebrow}
     </p>
+    <h2 class="section-title">{t.title}</h2>
+    {t.lead && <p class="section-lead">{t.lead}</p>}
 
     <div class="tiers">
+      <section class="tier">
+        <header class="tier__head">
+          <h3 class="tier__label">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"
+              ></path></svg
+            >
+            {today.label}
+          </h3>
+          {today.note && <p class="tier__note">{today.note}</p>}
+        </header>
+        <div class="tier__loop">
+          <StackLoop
+            client:visible
+            items={todayItems}
+            ariaLabel={today.label}
+          />
+        </div>
+      </section>
       {
-        tiers.map((tier) => (
+        restTiers.map((tier, tierIndex) => (
           <section class="tier">
             <header class="tier__head">
-              <h3 class="tier__label">{tier.label}</h3>
-              <p class="tier__note">{tier.note}</p>
+              <h3 class="tier__label">
+                {tierIndex === 0 ? (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M22 10 12 5 2 10l10 5 10-5z" />
+                    <path d="M6 12v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5" />
+                  </svg>
+                ) : (
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8z" />
+                  </svg>
+                )}
+                {tier.label}
+              </h3>
+              {tier.note && <p class="tier__note">{tier.note}</p>}
             </header>
             <div class="tier__groups">
               {tier.groups.map((group) => (
                 <div class="tier__group">
                   <h4 class="tier__group-name">{group.name}</h4>
-                  <ul class="tags">
-                    {group.items.map((item) => (
-                      <li class="tag">{item}</li>
-                    ))}
-                  </ul>
+                  <TechTags items={group.items} />
                 </div>
               ))}
             </div>
@@ -127,13 +130,31 @@ const tiers = [
     gap: 2.75rem;
   }
 
+  /* Grid item: sin esto crece hasta el ancho natural de la marquesina y
+     desborda la página en horizontal (verificado a 360px). */
+  .tier {
+    min-width: 0;
+  }
+
+  .tier__loop {
+    overflow: hidden;
+  }
+
   .tier__head {
     padding-bottom: 1rem;
     border-bottom: 1px solid var(--line);
   }
 
   .tier__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
     font-size: var(--step-1);
+  }
+
+  .tier__label svg {
+    color: var(--accent);
+    flex-shrink: 0;
   }
 
   .tier__note {
@@ -148,6 +169,10 @@ const tiers = [
     gap: 1.5rem;
   }
 
+  .tier__loop {
+    margin-top: 1.5rem;
+  }
+
   .tier__group-name {
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: var(--step--1);
@@ -156,7 +181,9 @@ const tiers = [
     color: var(--text-dim);
   }
 
-  .tier__group .tags {
+  /* :global porque las etiquetas las renderiza TechTags (React SSR) y el
+     scoping de Astro no marca ese HTML. */
+  .tier__group :global(.tags) {
     margin-top: 0.75rem;
   }
 

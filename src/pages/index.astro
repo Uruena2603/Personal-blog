@@ -2,7 +2,6 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
-import Proof from "../components/Proof.astro";
 import About from "../components/About.astro";
 import ClientWork from "../components/ClientWork.astro";
 import CaseStudy from "../components/CaseStudy.astro";
@@ -10,24 +9,19 @@ import Engineering from "../components/Engineering.astro";
 import Knowledge from "../components/Knowledge.astro";
 import Contact from "../components/Contact.astro";
 import Footer from "../components/Footer.astro";
-
-const title =
-  "Juan Alejandro Urueña Serna | Ingeniero de Sistemas y Telecomunicaciones";
-const description =
-  "Ingeniero de Sistemas y Telecomunicaciones en Pereira. Construyo sistemas completos: del sensor al modelo y de la landing al despliegue. Diez proyectos en producción y un proyecto de grado en deep learning aplicado a mantenimiento predictivo.";
+import { en } from "../i18n/en";
 ---
 
-<Base title={title} description={description}>
-  <Nav />
-  <main id="contenido">
-    <Hero />
-    <Proof />
-    <About />
-    <ClientWork />
-    <CaseStudy />
-    <Engineering />
-    <Knowledge />
-    <Contact />
+<Base t={en.meta}>
+  <Nav t={en.nav} />
+  <main id="content">
+    <Hero t={en.hero} />
+    <About t={en.about} />
+    <ClientWork t={en.clientWork} />
+    <CaseStudy t={en.caseStudy} />
+    <Engineering t={en.engineering} />
+    <Knowledge t={en.knowledge} />
+    <Contact t={en.contact} />
   </main>
-  <Footer />
+  <Footer t={en.footer} />
 </Base>
