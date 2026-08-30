@@ -1,0 +1,16 @@
+# Dependabot: vigila las dependencias npm y abre PRs con actualizaciones de
+# seguridad y de versiones. Revisión semanal en sábado, cuando Juan trabaja
+# en el proyecto. Los PRs se agrupan para no inundar el repo.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "saturday"
+    open-pull-requests-limit: 5
+    groups:
+      dependencias-menores:
+        update-types:
+          - "minor"
+          - "patch"
