@@ -34,7 +34,10 @@ import {
   SiHackthebox,
 } from "react-icons/si";
 
-export const TECH_ICONS: Record<string, IconType> = {
+// Partial: no toda etiqueta tiene logo (ej. Microsoft Clarity). Sin esto,
+// TypeScript cree que la búsqueda siempre devuelve un ícono y el chequeo
+// `Icon ? ...` de TechTags falla con ts(2774).
+export const TECH_ICONS: Partial<Record<string, IconType>> = {
   "Next.js": SiNextdotjs,
   TypeScript: SiTypescript,
   React: SiReact,
