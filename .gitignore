@@ -8,6 +8,11 @@ node_modules/
 dist/
 .astro/
 
+# Artefactos de Playwright
+playwright-report/
+test-results/
+blob-report/
+
 # Sistema operativo
 Thumbs.db
 desktop.ini
