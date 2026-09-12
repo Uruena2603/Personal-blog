@@ -41,7 +41,7 @@ export const es = {
   about: {
     eyebrow: "Sobre mí",
     title: "Quién soy y cómo trabajo.",
-    lead: "Ingeniero de Sistemas y Telecomunicaciones (UCP, 2026). Desarrollo con agentes de IA bajo un ciclo de ingeniería escrito: definir, planear, construir, verificar, entregar. Nada cuenta como terminado sin evidencia.",
+    lead: "Ingeniero de Sistemas y Telecomunicaciones (UCP, 2026). Desarrollo con agentes de IA bajo un ciclo de ingeniería escrito: definir, planear, construir, verificar, revisar, entregar. Nada cuenta como terminado sin evidencia.",
     chain: [
       {
         year: "2025",
@@ -62,7 +62,7 @@ export const es = {
     ],
     workflow: {
       label: "Mi flujo con agentes de IA, documentado en GitHub",
-      href: "https://github.com/Uruena2603/Personal-blog/tree/main/docs/agent-workflow",
+      href: "https://github.com/Uruena2603/Personal-blog#how-it-is-built",
     },
   },
   clientWork: {

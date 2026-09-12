@@ -1,6 +1,6 @@
 # Juan Alejandro Urueña Serna
 
-> Personal site of Juan Alejandro Urueña Serna, Systems and Telecommunications Engineer and full-stack developer based in Pereira, Colombia. He builds complete web systems for clients in the United States and Colombia: websites, funnels with lead capture and analytics, and AI automation. He develops with AI agents under a written engineering cycle: define, plan, build, verify, ship.
+> Personal site of Juan Alejandro Urueña Serna, Systems and Telecommunications Engineer and full-stack developer based in Pereira, Colombia. He builds complete web systems for clients in the United States and Colombia: websites, funnels with lead capture and analytics, and AI automation. He develops with AI agents under a written engineering cycle: define, plan, build, verify, review, ship.
 
 Key facts:
 
@@ -23,4 +23,4 @@ Key facts:
 
 - [Résumé (PDF, English)](https://juan-alejandro-uruena.pages.dev/cv/Juan-Alejandro-Uruena-CV-EN.pdf)
 - [Hoja de vida (PDF, español)](https://juan-alejandro-uruena.pages.dev/cv/Juan-Alejandro-Uruena-CV-ES.pdf)
-- [Agent workflow](https://github.com/Uruena2603/Personal-blog/tree/main/docs/agent-workflow): how this site is built and verified with AI agents
+- [How it is built](https://github.com/Uruena2603/Personal-blog#how-it-is-built): how this site is built and verified with AI agents

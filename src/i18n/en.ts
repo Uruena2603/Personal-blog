@@ -40,7 +40,7 @@ export const en: Dictionary = {
   about: {
     eyebrow: "About",
     title: "Who I am and how I work.",
-    lead: "Systems and Telecommunications Engineer (UCP, 2026). I develop with AI agents under a written engineering cycle: define, plan, build, verify, ship. Nothing counts as done without evidence.",
+    lead: "Systems and Telecommunications Engineer (UCP, 2026). I develop with AI agents under a written engineering cycle: define, plan, build, verify, review, ship. Nothing counts as done without evidence.",
     chain: [
       {
         year: "2025",
@@ -61,7 +61,7 @@ export const en: Dictionary = {
     ],
     workflow: {
       label: "My AI-agent workflow, documented on GitHub",
-      href: "https://github.com/Uruena2603/Personal-blog/tree/main/docs/agent-workflow",
+      href: "https://github.com/Uruena2603/Personal-blog#how-it-is-built",
     },
   },
   clientWork: {
