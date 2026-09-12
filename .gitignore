@@ -17,3 +17,9 @@ blob-report/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Archivos de trabajo del plugin agent-skills (privados por ahora)
+tasks/
+docs/decisions/
+SPEC.md
+CONSTRAINTS.md
