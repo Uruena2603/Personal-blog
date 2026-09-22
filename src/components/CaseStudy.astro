@@ -142,6 +142,8 @@ const { t } = Astro.props;
     background: var(--accent-soft);
   }
 
+  /* Hoy solo hay una cifra, pero el componente recorre t.results, asi que
+     el wrap se conserva para admitir dos o mas sin tocar el CSS. */
   .case__figures {
     display: flex;
     flex-wrap: wrap;
