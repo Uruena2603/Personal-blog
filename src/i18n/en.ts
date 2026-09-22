@@ -80,7 +80,7 @@ export const en: Dictionary = {
       },
       {
         name: "ECMO",
-        meta: "Client · Lead-generation funnel · 250+ sign-ups",
+        meta: "Client · Lead-generation funnel · 400+ sign-ups",
         href: "https://ecmo-lp.pages.dev",
         linkLabel: "ecmo-lp.pages.dev",
         image: "/img/proyectos/ecmo-lp.webp",
@@ -165,8 +165,7 @@ export const en: Dictionary = {
       },
     ],
     results: [
-      { value: "250+", label: "sign-ups captured" },
-      { value: "~170", label: "people in the WhatsApp group" },
+      { value: "400+", label: "sign-ups captured" },
     ],
     cta: "See the funnel",
   },
