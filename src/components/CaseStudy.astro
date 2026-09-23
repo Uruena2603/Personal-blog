@@ -126,14 +126,15 @@ const { t } = Astro.props;
     max-width: var(--measure);
   }
 
-  /* Centrado en todos los anchos: cifras juntas y el botón debajo, sin
-     huecos intermedios. */
+  /* Con una sola cifra: fila en pantallas anchas, apilado en estrechas.
+     El wrap lo resuelve solo, sin media query. */
   .case__results {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    gap: 1.75rem;
+    gap: 1.75rem clamp(2.5rem, 1.5rem + 4vw, 5rem);
     margin-top: 3rem;
     padding: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
     border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
@@ -141,6 +142,8 @@ const { t } = Astro.props;
     background: var(--accent-soft);
   }
 
+  /* Hoy solo hay una cifra, pero el componente recorre t.results, así que
+     el wrap se conserva para admitir dos o mas sin tocar el CSS. */
   .case__figures {
     display: flex;
     flex-wrap: wrap;

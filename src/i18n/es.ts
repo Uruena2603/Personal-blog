@@ -81,7 +81,7 @@ export const es = {
       },
       {
         name: "ECMO",
-        meta: "Cliente · Embudo de captación · 250+ registros",
+        meta: "Cliente · Embudo de captación · 400+ registros",
         href: "https://ecmo-lp.pages.dev",
         linkLabel: "ecmo-lp.pages.dev",
         image: "/img/proyectos/ecmo-lp.webp",
@@ -166,8 +166,7 @@ export const es = {
       },
     ],
     results: [
-      { value: "250+", label: "registros captados" },
-      { value: "~170", label: "personas en el grupo de WhatsApp" },
+      { value: "400+", label: "registros captados" },
     ],
     cta: "Ver el embudo",
   },
